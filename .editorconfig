@@ -1,0 +1,7 @@
+﻿[*.vb]
+
+# BC2001: Не удалось найти файл "C:\Users\Никита\source\repos\WindowsApp1\My Project\Module1.vb".
+dotnet_diagnostic.BC2001.severity = none
+
+# BC42104: Переменная используется до того, как ей было назначено значение
+dotnet_diagnostic.BC42104.severity = silent
