@@ -28,6 +28,8 @@ Partial Class Fr_Code
         Me.Btn_Output = New System.Windows.Forms.PictureBox()
         Me.Btn_Actions = New System.Windows.Forms.PictureBox()
         Me.GB_Blocks = New System.Windows.Forms.GroupBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.GB_WF.SuspendLayout()
         Me.GB_BF.SuspendLayout()
         CType(Me.Btn_Output, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btn_Actions, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -35,6 +37,7 @@ Partial Class Fr_Code
         '
         'GB_WF
         '
+        Me.GB_WF.Controls.Add(Me.Label1)
         Me.GB_WF.Dock = System.Windows.Forms.DockStyle.Right
         Me.GB_WF.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.GB_WF.ForeColor = System.Drawing.SystemColors.ControlText
@@ -87,6 +90,15 @@ Partial Class Fr_Code
         Me.GB_Blocks.TabIndex = 1
         Me.GB_Blocks.TabStop = False
         '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(495, 192)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(66, 25)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "TEST"
+        '
         'Fr_Code
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -99,6 +111,8 @@ Partial Class Fr_Code
         Me.Name = "Fr_Code"
         Me.Text = "Коструктор. Код"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
+        Me.GB_WF.ResumeLayout(False)
+        Me.GB_WF.PerformLayout()
         Me.GB_BF.ResumeLayout(False)
         CType(Me.Btn_Output, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Btn_Actions, System.ComponentModel.ISupportInitialize).EndInit()
@@ -110,4 +124,5 @@ Partial Class Fr_Code
     Friend WithEvents GB_Blocks As GroupBox
     Friend WithEvents Btn_Actions As PictureBox
     Friend WithEvents Btn_Output As PictureBox
+    Friend WithEvents Label1 As Label
 End Class
