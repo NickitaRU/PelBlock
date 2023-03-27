@@ -136,7 +136,6 @@
     End Sub
 
     Sub FillBlocks()
-        Dim ForC%
         Dim nls As New List(Of String)
         Dim nls2 As New List(Of String)
         For Each i$ In EventB
@@ -157,6 +156,12 @@
         Fr_Stage.Show()
         FillBlocks()
         AddHandler GB_WF.MouseUp, AddressOf Move_MouseUP
+        Block.Add(New List(Of Object)) 'link
+        Block.Add(New List(Of Object)) 'name
+        Block.Add(New List(Of Object)) 'parent
+        Block.Add(New List(Of Object)) 'Size
+        Block.Add(New List(Of Object)) 'pos in container
+        Block.Add(New List(Of Object)) 'pos in main cointainer
     End Sub
 
     Private Sub CreateOutputBlock(sender As Control, e As EventArgs)

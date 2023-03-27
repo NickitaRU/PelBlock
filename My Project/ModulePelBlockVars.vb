@@ -16,4 +16,5 @@
     Public viscont, visblock As GroupBox
     Public VisConts As New List(Of Control)
     Public VisGB As Control
+    Public Block As New List(Of List(Of Object))
 End Module

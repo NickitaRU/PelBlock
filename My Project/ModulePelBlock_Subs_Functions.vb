@@ -1,4 +1,33 @@
 ﻿Module ModulePelBlock_Subs_Functions
+    'Block propertes manipulations
+    Sub AddBlockPorperties(obj As Control)
+        Block(0).Add(obj)
+        Block(1).Add(obj.Name)
+        Block(2).Add(obj.Parent)
+        Block(3).Add(obj.Size)
+        Block(4).Add(obj.Location)
+        Block(5).Add(New Point(IIf(
+            obj.Parent IsNot Fr_Code.GB_Blocks And obj.Parent IsNot Fr_Code.GB_WF,
+            CountLeft(obj.Parent),
+            0), IIf(obj.Parent IsNot Fr_Code.GB_Blocks And obj.Parent IsNot Fr_Code.GB_WF,
+            CountTop(obj.Parent), 0)))
+    End Sub
+
+    Function FindBlockPropertes(name As String) As List(Of Object)
+        Dim i% = Block(1).IndexOf(name)
+        Dim preres As New List(Of Object) From {
+            Block(0)(i),
+            Block(1)(i),
+            Block(2)(i),
+            Block(3)(i),
+            Block(4)(i),
+            Block(5)(i)
+        }
+        Return preres
+    End Function
+
+    'End Block propertes manipulations
+
     'Reading
 
     Function ReadName(tar As String) As List(Of String)
@@ -114,6 +143,7 @@
     End Function
 
     Sub AddBlockContent(cont As GroupBox, type As String, obj As Control, Optional cont2 As Control = Nothing)
+        AddBlockPorperties(obj)
         Dim FT As List(Of GroupBox) = MakeFamilyTree(cont)
         If Not FT.Contains(cont) Then
             FT.Add(cont)
