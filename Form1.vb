@@ -1,6 +1,6 @@
 ﻿Public Class Fr_Code
 
-    Private Sub Move_MouseMove(sender As Object, e As MouseEventArgs)
+    Public Sub Move_MouseMove(sender As Object, e As MouseEventArgs)
         If isMouseDown Then 'если кнопка мыши удерживается
             'вычисляем новые координаты элемента управления
             sender.Left += (e.X - StartPoint.X)
@@ -8,12 +8,12 @@
         End If
     End Sub
 
-    Private Sub Move_MouseUP(sender As Object, e As MouseEventArgs)
+    Public Sub Move_MouseUP(sender As Object, e As MouseEventArgs)
         isMouseDown = False
         sender.Cursor = Cursors.Default 'восстанавливаем вид курсора
         If isVisualised Then
-            'DisVisualize(viscont)
-            'InsertBlock(viscont, visblock)
+            DisVisualize(viscont)
+            InsertBlock(viscont, sender)
         End If
     End Sub
 
@@ -59,7 +59,7 @@
 
     'GG
 
-    Sub Move_OTLocationChanged(sender As Control, e As EventArgs)
+    Sub Move_OTLocationChanged(sender As Object, e As EventArgs)
         'если большая часть элемента управления выходит за границу формы, возвращаем его в центр
         Dim w2 As Integer = Convert.ToInt32(sender.Width / 2)
         Dim h2 As Integer = Convert.ToInt32(sender.Height / 2)
@@ -70,12 +70,17 @@
         End If
 
         For Each i As Control In Conteiner
-            Dim ysl1 As Boolean = (i.Location.X - sender.Location.X = i.Width + 20 Or sender.Location.X - i.Location.X = sender.Width)
-            Dim ysl2 As Boolean = (i.Location.Y - sender.Location.Y = i.Height + 20 Or sender.Location.Y - i.Location.Y = sender.Height)
-            If i.Location.X - sender.Location.X <= i.Width + 20 Or sender.Location.X - i.Location.X <= sender.Width And i.Location.Y - sender.Location.Y = i.Height + 20 Or sender.Location.Y - i.Location.Y = sender.Height + 20 Then
-                Dim AC As Control = i.Controls(i.Controls.Count - 1)
+            Dim p1 As New Point(i.Left - 35, i.Top - 35)
+            Dim p2 As New Point(i.Left + i.Width + 35, i.Top - 35)
+            Dim p3 As New Point(i.Left + i.Width + 35, i.Top + i.Height + 35)
+            Dim ysl1 As Boolean = p1.X < sender.Left And sender.Left < p2.X
+            Dim ysl2 As Boolean = p1.Y < sender.Top And sender.Top < p3.Y
+            Dim AC As Control = i.Controls(i.Controls.Count - 1)
+            If ysl1 And ysl2 And Not isBI(sender) Then
                 Visualize(AC, sender)
                 Exit For
+            Else
+                DisVisualize(AC)
             End If
         Next
     End Sub
@@ -108,7 +113,7 @@
             blockindex = EventB.IndexOf(blockname)
         End If
 
-        If Blocks(1)(blockindex) = MaxEvent(blockindex, 0) + 1 Then
+        If Blocks(1)(blockindex) = MaxEvent(blockindex) + 1 Then
             Exit Sub
         End If
 
@@ -148,12 +153,13 @@
         Next
         Blocks.Add(nls)
         Blocks.Add(nls2)
-        MaxEvent(0, 0) = 1
-        MaxEvent(1, 0) = 1
+        MaxEvent.Add(1)
+        MaxEvent.Add(1)
     End Sub
 
     Private Sub Fr_Code_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Fr_Stage.Show()
+        Fr_Debug.Show()
         FillBlocks()
         AddHandler GB_WF.MouseUp, AddressOf Move_MouseUP
         Block.Add(New List(Of Object)) 'link
@@ -236,6 +242,7 @@
                 GB_Blocks.Controls.Remove(AC)
                 GBBCh.Remove(GBBCh(GBBCh.Count() - 1))
                 Blocks(1)(i) -= 1
+                DeleteBlockPropertes(AC)
                 BlockContent.RemoveAt(BlockParants.IndexOf(AC))
                 BlockParants.Remove(AC)
                 BlockContent.RemoveAt(BlockParants.IndexOf(AC.Controls(AC.Controls.Count - 1)))
@@ -290,7 +297,7 @@
                                         .AutoSize = False,
                                         .Name = "GB_" & "FromGB_" & Blocks(0)(indexB) & "_" & Blocks(1)(indexB) & "_innerBlocks",
                                         .Size = New Size(GB.Width - 15, GB.Height - 30),
-                                        .Location = New Point(15, 15)
+                                        .Location = New Point(16, 16)
                                           })
 
         BlockParants.Add(GB.Controls(GB.Controls.Count - 1))
@@ -338,16 +345,17 @@
                                         .Name = "Lbl_" & "FromGB_" & Blocks(0)(indexET) & "_" & Blocks(1)(indexET) & "_LeftHorizontal",
                                         .Size = New Size(15, GB.Height - 1),
                                         .Location = New Point(0, 0),
-                                        .BackColor = bc
+                                        .BackColor = bc,
+                                        .Enabled = False
                                         })
 
         AddBlockContent(GB, "Block", GB.Controls(GB.Controls.Count - 1))
 
         GB.Controls.Add(New GroupBox With {
-                                        .AutoSize = False,
+                                        .AutoSize = True,
                                         .Name = "GB_" & "FromGB_" & Blocks(0)(indexET) & "_" & Blocks(1)(indexET) & "_innerBlocks",
                                         .Size = New Size(GB.Width - 15, GB.Height - 15),
-                                        .Location = New Point(15, 15)
+                                        .Location = New Point(16, 16)
                                           })
 
         BlockParants.Add(GB.Controls(GB.Controls.Count - 1))
@@ -391,6 +399,7 @@
                 GB_Blocks.Controls.Remove(AC)
                 GBBCh.Remove(GBBCh(GBBCh.Count() - 1))
                 Blocks(1)(i) -= 1
+                DeleteBlockPropertes(AC)
                 BlockContent.RemoveAt(BlockParants.IndexOf(AC))
                 BlockParants.Remove(AC)
                 BlockContent.RemoveAt(BlockParants.IndexOf(AC.Controls(AC.Controls.Count - 1)))
@@ -413,7 +422,7 @@
         '    End If
     End Sub
 
-    Private Sub Move_MouseDown(sender As Object, e As MouseEventArgs)
+    Public Sub Move_MouseDown(sender As Object, e As MouseEventArgs)
         If e.Button = MouseButtons.Left Then 'если нажата левая кнопка мыши
             isMouseDown = True
             StartPoint = e.Location 'запоминаем текущую позицию элемента управления
@@ -428,5 +437,9 @@
         If e.KeyChar = "s" Then
             LaunchCode()
         End If
+    End Sub
+
+    Private Sub Btn_Text_Click(sender As Object, e As EventArgs) Handles Btn_Text.Click
+
     End Sub
 End Class

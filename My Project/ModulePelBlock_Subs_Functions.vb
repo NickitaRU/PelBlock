@@ -1,21 +1,37 @@
 ﻿Module ModulePelBlock_Subs_Functions
+
+    'Logical Functions
+    Function isBI(obj As GroupBox) As Boolean 'is block inserted 
+        Return IIf(obj.Parent IsNot Fr_Code.GB_WF, True, False)
+    End Function
+
+    'End Logical Functions
+
     'Block propertes manipulations
-    Sub AddBlockPorperties(obj As Control)
-        Block(0).Add(obj)
-        Block(1).Add(obj.Name)
-        Block(2).Add(obj.Parent)
-        Block(3).Add(obj.Size)
-        Block(4).Add(obj.Location)
-        Block(5).Add(New Point(IIf(
-            obj.Parent IsNot Fr_Code.GB_Blocks And obj.Parent IsNot Fr_Code.GB_WF,
+    Sub AddBlockProperties(obj As Control)
+        If FindBlockPropertes(obj.Name) Is Nothing Then
+            Block(0).Add(obj)
+            Block(1).Add(obj.Name)
+            Block(2).Add(obj.Parent)
+            Block(3).Add(obj.Size)
+            Block(4).Add(obj.Location)
+            Block(5).Add(New Point(IIf(
+            obj.Parent IsNot MakeFamilyTree(obj.Parent).Last,
             CountLeft(obj.Parent),
-            0), IIf(obj.Parent IsNot Fr_Code.GB_Blocks And obj.Parent IsNot Fr_Code.GB_WF,
-            CountTop(obj.Parent), 0)))
+            0),
+                               IIf(
+            obj.Parent IsNot MakeFamilyTree(obj.Parent).Last,
+            CountTop(obj.Parent),
+            0)))
+        End If
     End Sub
 
     Function FindBlockPropertes(name As String) As List(Of Object)
         Dim i% = Block(1).IndexOf(name)
-        Dim preres As New List(Of Object) From {
+        If i = -1 Then
+            Return Nothing
+        Else
+            Dim preres As New List(Of Object) From {
             Block(0)(i),
             Block(1)(i),
             Block(2)(i),
@@ -23,10 +39,128 @@
             Block(4)(i),
             Block(5)(i)
         }
+            Return preres
+        End If
+    End Function
+
+    Sub DeleteBlockPropertes(name As String)
+        Dim i% = Block(1).IndexOf(name)
+        Block(0).RemoveAt(i)
+        Block(1).RemoveAt(i)
+        Block(2).RemoveAt(i)
+        Block(3).RemoveAt(i)
+        Block(4).RemoveAt(i)
+        Block(5).RemoveAt(i)
+    End Sub
+
+    Sub DeleteBlockPropertes(cont As GroupBox)
+        For Each i$ In ReadBlockContent(cont)
+            Dim eName$ = ""
+            For i2 = i.Length - 1 To 0 Step -1
+                If i(i2) = "." Then
+                    Exit For
+                Else
+                    eName = eName.Insert(0, i(i2))
+                End If
+            Next
+            Dim i3% = Block(1).IndexOf(eName)
+            Block(0).RemoveAt(i3)
+            Block(1).RemoveAt(i3)
+            Block(2).RemoveAt(i3)
+            Block(3).RemoveAt(i3)
+            Block(4).RemoveAt(i3)
+            Block(5).RemoveAt(i3)
+
+        Next
+    End Sub
+
+    'End Block propertes manipulations
+
+    'Array To String
+
+    Function ArrToString(lst As List(Of Control), Optional sep As String = ", ") As String
+        Dim preres$ = ""
+        For Each i As Control In lst
+            preres += i.Name + sep
+        Next
         Return preres
     End Function
 
-    'End Block propertes manipulations
+    Function ArrToString(lst As List(Of Integer), Optional sep As String = ", ") As String
+        Dim preres$ = ""
+        For Each i$ In lst
+            preres += i + sep
+        Next
+        Return preres
+    End Function
+
+    Function ArrToString(lst As List(Of String), Optional sep As String = ", ") As String
+        Dim preres$ = ""
+        For Each i$ In lst
+            preres += i + sep
+        Next
+        Return preres
+    End Function
+
+    Function ArrToString(lst As List(Of GroupBox), Optional sep As String = ", ") As String
+        Dim preres$ = ""
+        For Each i As GroupBox In lst
+            preres += i.Name + sep
+        Next
+        Return preres
+    End Function
+
+    Function ArrToString(lst As ArrayList, Optional sep As String = ", ") As String
+        Dim preres$ = ""
+        For Each i In lst
+            If i.ToString.Contains("Forms") Then
+                preres += i.name + sep
+            Else
+                preres += i.ToString + sep
+            End If
+        Next
+        Return preres
+    End Function
+
+    Function ArrToString(lst As List(Of List(Of String)), Optional sep As String = ", ") As String
+        Dim preres$ = ""
+        For Each i As List(Of String) In lst
+            For Each i2$ In i
+                preres += i2 & sep
+            Next
+            preres += vbCrLf
+        Next
+        Return preres
+    End Function
+
+    Function ArrToString(lst As List(Of Object), Optional sep As String = ", ") As String
+        Dim preres$ = ""
+        For Each i In lst
+            If i.ToString.Contains("Forms") Then
+                preres += i.name + sep
+            Else
+                preres += i.ToString + sep
+            End If
+        Next
+        Return preres
+    End Function
+
+    Function ArrToString(lst As List(Of List(Of Object)), Optional sep As String = ", ") As String
+        Dim preres$ = ""
+        For Each i As List(Of Object) In lst
+            For Each i2 In i
+                If i2.ToString.Contains("Forms") Then
+                    preres += i2.name + sep
+                Else
+                    preres += i2.ToString + sep
+                End If
+            Next
+            preres += vbCrLf
+        Next
+        Return preres
+    End Function
+
+    'End Array to String
 
     'Reading
 
@@ -107,43 +241,9 @@
 
     'Block content manipulations
 
-    Function ArrToString(lst As List(Of String), Optional sep As String = ", ") As String
-        Dim preres$ = ""
-        For Each i$ In lst
-            preres += i + sep
-        Next
-        Return preres
-    End Function
-
-    Function ArrToString(lst As List(Of GroupBox), Optional sep As String = ", ") As String
-        Dim preres$ = ""
-        For Each i As GroupBox In lst
-            preres += i.Name + sep
-        Next
-        Return preres
-    End Function
-
-    Function ArrToString(lst As ArrayList, Optional sep As String = ", ") As String
-        Dim preres$ = ""
-        For Each i$ In lst
-            preres += i + sep
-        Next
-        Return preres
-    End Function
-
-    Function ArrToString(lst As List(Of List(Of String)), Optional sep As String = ", ") As String
-        Dim preres$ = ""
-        For Each i As List(Of String) In lst
-            For Each i2$ In i
-                preres += i2 & sep
-            Next
-            preres += vbCrLf
-        Next
-        Return preres
-    End Function
 
     Sub AddBlockContent(cont As GroupBox, type As String, obj As Control, Optional cont2 As Control = Nothing)
-        AddBlockPorperties(obj)
+        AddBlockProperties(obj)
         Dim FT As List(Of GroupBox) = MakeFamilyTree(cont)
         If Not FT.Contains(cont) Then
             FT.Add(cont)
@@ -218,15 +318,11 @@
 
     'End Block content manipulations
 
-    Function LastInnerPos(cont As Control) As Point
+    Function LastInnerPos(cont As GroupBox) As Point
         Dim preres As Point
-        Dim AC As Control
-        If cont.Controls.Count = 0 Then
-            AC = New Control(top:=0, height:=0, width:=0, left:=0, text:="")
-        Else
-            AC = cont.Controls(cont.Controls.Count - 1)
-        End If
-        preres = New Point(0, AC.Top + AC.Height + 2)
+        For Each i As Control In cont.Controls
+            preres = New Point(IIf(preres.Y < i.Top + i.Height, i.Top + i.Height, preres.Y), IIf(preres.X < i.Left + i.Width, i.Left + i.Width, preres.X))
+        Next
         Return preres
     End Function
 
@@ -244,27 +340,36 @@
         Return preres
     End Function
 
-    Function FindParent(cont As Control, objName$) As GroupBox
-        Dim preres As GroupBox = cont
-        Dim contDecod As List(Of String) = ReadBlockContent(cont)
-        For Each i$ In contDecod
-            Dim PName$ = ""
-            If i.Contains("cont") Then
-                If preres.Controls.Find(objName, False).Count = 1 Then
-                    Exit For
-                End If
-                For i2 = 5 To i.Length - 1
-                    If i(i2) = "." Then
-                        preres = preres.Controls.Find(PName, False)(0)
-                    Else
-                        PName += i(i2)
-                    End If
-                Next
-                If preres.Name <> PName Then
-                    preres = preres.Controls.Find(PName, False)(0)
-                End If
+    Function FindParent(objName$) As GroupBox
+        Dim preres As GroupBox
+        Dim list$
+        Dim pName$ = ""
+        Dim si%
+        For Each i2 In BlockContent
+            If i2.Contains(objName) Then
+                list = i2
+                Exit For
             End If
         Next
+
+        si = objName.LastIndexOf(objName)
+
+        For i = si - 1 To 0 Step -1
+            If list(i) = "." Then
+                Exit For
+            Else
+                pName += list(i)
+            End If
+        Next
+
+        For Each i As GroupBox In BlockParants
+            If i.Name = pName Then
+                preres = i
+                Exit For
+            End If
+        Next
+
+
         Return preres
     End Function
 
@@ -272,7 +377,11 @@
         Dim preres As Integer = 15
         Dim FT As List(Of GroupBox) = MakeFamilyTree(obj)
         For Each i In FT
-            preres += i.Left
+            If i Is FT.Last Then
+
+            Else
+                preres += i.Left
+            End If
         Next
         Return preres
     End Function
@@ -281,22 +390,21 @@
         Dim preres As Integer = 20
         Dim FT As List(Of GroupBox) = MakeFamilyTree(obj)
         For Each i In FT
-            preres += i.Top
+            If i Is FT.Last Then
+
+            Else
+                preres += i.Top
+            End If
         Next
         Return preres
     End Function
 
     Function CountMaxSize(cont As GroupBox) As Size
         Dim preres As Size, maxW% = cont.Width, maxH% = cont.Height
-        Dim parent As Control = cont
-        Dim El As Control
-        Dim FT As List(Of GroupBox) = MakeFamilyTree(cont)
-        MsgBox(ArrToString(ReadBlockContent(cont), vbCrLf))
+        Dim BP As List(Of Object)
         For Each i$ In ReadBlockContent(cont)
-            Dim EName$ = "", EParentName$ = ""
+            Dim EName$ = ""
             If i.Contains("cont") Then
-
-
             Else
                 For i2 = i.Length - 1 To 0 Step -1
                     If i(i2) = "." Then
@@ -305,27 +413,26 @@
                         EName = EName.Insert(0, i(i2))
                     End If
                 Next
+                If EName = "" Then
+                    Exit For
+                End If
+                BP = FindBlockPropertes(EName)
+                maxW = IIf(maxW < BP(3).Width + BP(4).X + BP(5).X, BP(3).Width + BP(4).X + BP(5).X, maxW)
+                maxH = IIf(maxH < BP(3).Height + BP(4).Y + BP(5).Y, BP(3).Height + BP(4).Y + BP(5).Y, maxH)
             End If
-            If EName = "" Then
-                Exit For
-            End If
-            El = parent.Controls.Find(EName, False)(0)
-            maxW += IIf(maxW < El.Width + El.Left + IIf(El.Parent IsNot FT(0), CountLeft(El.Parent), 0), El.Width + El.Left + IIf(El.Parent IsNot FT(0), CountLeft(El.Parent), 0) - maxW, 0)
-            maxH += IIf(maxH < El.Height + El.Top + IIf(El.Parent IsNot FT(0), CountTop(El.Parent), 0), El.Height + El.Top + IIf(El.Parent IsNot FT(0), CountTop(El.Parent), 0) - maxH, 0)
         Next
         preres = New Size(maxW, maxH)
         Return preres
     End Function
 
     Sub BlockReSize(cont As Control)
+        Console.WriteLine(ArrToString(BlockContent, vbCrLf))
         Dim contDecod As List(Of String) = ReadBlockContent(cont)
         Dim LastCont As Control = cont
         Dim tb As Label = cont.Controls.Find("Lbl_" & "FromGB_" & ReadName(cont.Name)(1) & "_" & ReadName(cont.Name)(2) & "_TopHorizontal", False)(0)
         Dim bb As Label = cont.Controls.Find("Lbl_" & "FromGB_" & ReadName(cont.Name)(1) & "_" & ReadName(cont.Name)(2) & "_BottomHorizontal", False)(0)
         Dim lb As Label = cont.Controls.Find("Lbl_" & "FromGB_" & ReadName(cont.Name)(1) & "_" & ReadName(cont.Name)(2) & "_LeftHorizontal", False)(0)
         Dim inr As GroupBox = cont.Controls.Find("GB_" & "FromGB_" & ReadName(cont.Name)(1) & "_" & ReadName(cont.Name)(2) & "_innerBlocks", False)(0)
-
-        MsgBox(cont.Name & vbCrLf & ArrToString(contDecod, vbCrLf))
 
         For Each i$ In contDecod
             If i.Contains("cont") Then
@@ -336,8 +443,9 @@
                     End If
                     LastContName = LastContName.Insert(0, i(i2))
                 Next
-                LastCont = LastCont.Controls.Find(LastContName, False)(0)
+                LastCont = FindBlockPropertes(LastContName)(0)
                 LastCont.Size = CountMaxSize(LastCont)
+                Console.WriteLine(CountMaxSize(LastCont).ToString & " " & LastCont.Name)
             End If
         Next
         cont.Size = CountMaxSize(cont)
@@ -349,15 +457,35 @@
     End Sub
 
     Sub DisVisualize(cont As GroupBox)
-        cont.Controls.Remove(VisGB)
-        isVisualised = False
-        RemoveBlockContent(cont, VisGB)
-        MsgBox(BlockContent(BlockParants.IndexOf(cont.Parent)))
+        If VisConts.Count <> 0 And isVisualised Then
+            Dim tb As Label = cont.Parent.Controls.Find("Lbl_" & "FromGB_" & ReadName(cont.Parent.Name)(1) & "_" & ReadName(cont.Parent.Name)(2) & "_TopHorizontal", False)(0)
+            Dim bb As Label = cont.Parent.Controls.Find("Lbl_" & "FromGB_" & ReadName(cont.Parent.Name)(1) & "_" & ReadName(cont.Parent.Name)(2) & "_BottomHorizontal", False)(0)
+            Dim lb As Label = cont.Parent.Controls.Find("Lbl_" & "FromGB_" & ReadName(cont.Parent.Name)(1) & "_" & ReadName(cont.Parent.Name)(2) & "_LeftHorizontal", False)(0)
+            Dim inr As GroupBox = cont.Parent.Controls.Find("GB_" & "FromGB_" & ReadName(cont.Parent.Name)(1) & "_" & ReadName(cont.Parent.Name)(2) & "_innerBlocks", False)(0)
+            cont.Controls.Remove(VisConts(0))
+            isVisualised = False
+            DeleteBlockPropertes(VisConts(0))
+            RemoveBlockContent(cont, VisConts(0))
+            For Each i As Control In VisConts
+                BlockContent.RemoveAt(BlockParants.IndexOf(i))
+                BlockParants.Remove(i)
+            Next
+            VisConts.Clear()
+            cont.Parent.Size = cont.Parent.Size - VisGB.Size
+            lb.Height = cont.Parent.Height
+            tb.Width = cont.Parent.Width
+            bb.Width = cont.Parent.Width
+            bb.Top = cont.Parent.Height - bb.Height
+            inr.Size = New Size(cont.Parent.Width - 15, cont.Parent.Height - 30)
+            visblock = Nothing
+            VisGB = Nothing
+            Console.WriteLine("DisVisualized")
+            BlockReSize(cont.Parent)
+        End If
     End Sub
 
     Sub Visualize(cont As Control, obj As Control) 'GG
         If Not isVisualised Then
-            MsgBox(cont.Name)
             viscont = cont
             visblock = obj
             Dim innerO As Control
@@ -369,7 +497,7 @@
             cont.Controls.Add(New GroupBox With {
                                                 .Name = "Visual_GB",
                                                 .BackColor = Color.Transparent,
-                                                .Location = LastInnerPos(cont),
+                                                .Location = New Point(LastInnerPos(cont).X, LastInnerPos(cont).Y + 5),
                                                 .Width = obj.Width,
                                                 .Height = obj.Height
                                                 })
@@ -407,6 +535,7 @@
                     BlockContent.Add("{}")
                     VisConts.Add(VisGB)
                 ElseIf i.Contains("Lbl") Then
+                    Dim objECloneLbl As Label = obj.Controls.Find(objECloneName, False)(0)
                     Dim parentindex%
                     Dim parent$ = ""
                     Dim VisParent As Control = VisGB
@@ -440,20 +569,29 @@
                                                     .BackColor = Color.FromArgb(140, 140, 140),
                                                     .Location = objEClone.Location,
                                                     .Width = objEClone.Width,
-                                                    .Height = objEClone.Height})
+                                                    .Height = objEClone.Height,
+                                                    .Text = objEClone.Text,
+                                                    .ForeColor = Color.White,
+                                                    .Font = objEClone.Font,
+                                                    .TextAlign = objECloneLbl.TextAlign})
 
                     AddBlockContent(VisParent, "Block", VisParent.Controls.Find("Visual_Lbl_" & objEClone.Name, False)(0))
                 End If
             Next
 
-            MsgBox(ArrToString(BlockContent, vbCrLf))
             BlockReSize(cont.Parent)
             isVisualised = True
         End If
     End Sub
 
     Sub InsertBlock(cont As GroupBox, block As GroupBox)
+        RemoveHandler block.MouseDown, AddressOf Fr_Code.Move_MouseDown
+        RemoveHandler block.MouseUp, AddressOf Fr_Code.Move_MouseUP
+        RemoveHandler block.MouseMove, AddressOf Fr_Code.Move_MouseMove
+        RemoveHandler block.LocationChanged, AddressOf Fr_Code.Move_OTLocationChanged
+        block.Location = LastInnerPos(cont)
         cont.Controls.Add(block)
+        AddBlockContent(cont, "GB", block)
         BlockReSize(cont.Parent)
     End Sub
 

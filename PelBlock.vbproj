@@ -110,6 +110,12 @@
     <Compile Include="My Project\Form2.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="My Project\Fr_Debug.Designer.vb">
+      <DependentUpon>Fr_Debug.vb</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\Fr_Debug.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\ModulePelBlockVars.vb" />
     <Compile Include="My Project\ModulePelBlock_Subs_Functions.vb" />
     <Compile Include="My Project\Resources.Designer.vb">
@@ -133,6 +139,9 @@
     <EmbeddedResource Include="My Project\Form2.ru.resx">
       <DependentUpon>Form2.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Fr_Debug.resx">
+      <DependentUpon>Fr_Debug.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -155,6 +164,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="PelMen-projects.ico" />
+    <None Include="Resources\Text.png" />
     <None Include="Resources\shop.png" />
     <None Include="Resources\projects.png" />
     <None Include="Resources\project.png" />

@@ -25,10 +25,12 @@ Partial Class Fr_Code
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Fr_Code))
         Me.GB_WF = New System.Windows.Forms.GroupBox()
         Me.GB_BF = New System.Windows.Forms.GroupBox()
+        Me.GB_Blocks = New System.Windows.Forms.GroupBox()
+        Me.Btn_Text = New System.Windows.Forms.PictureBox()
         Me.Btn_Output = New System.Windows.Forms.PictureBox()
         Me.Btn_Actions = New System.Windows.Forms.PictureBox()
-        Me.GB_Blocks = New System.Windows.Forms.GroupBox()
         Me.GB_BF.SuspendLayout()
+        CType(Me.Btn_Text, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btn_Output, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btn_Actions, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -46,6 +48,7 @@ Partial Class Fr_Code
         '
         'GB_BF
         '
+        Me.GB_BF.Controls.Add(Me.Btn_Text)
         Me.GB_BF.Controls.Add(Me.Btn_Output)
         Me.GB_BF.Controls.Add(Me.Btn_Actions)
         Me.GB_BF.Controls.Add(Me.GB_Blocks)
@@ -55,6 +58,26 @@ Partial Class Fr_Code
         Me.GB_BF.Size = New System.Drawing.Size(534, 919)
         Me.GB_BF.TabIndex = 2
         Me.GB_BF.TabStop = False
+        '
+        'GB_Blocks
+        '
+        Me.GB_Blocks.Dock = System.Windows.Forms.DockStyle.Right
+        Me.GB_Blocks.Location = New System.Drawing.Point(240, 16)
+        Me.GB_Blocks.Name = "GB_Blocks"
+        Me.GB_Blocks.Size = New System.Drawing.Size(291, 900)
+        Me.GB_Blocks.TabIndex = 1
+        Me.GB_Blocks.TabStop = False
+        '
+        'Btn_Text
+        '
+        Me.Btn_Text.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Btn_Text.Image = Global.PelBlock.My.Resources.Resources.Text
+        Me.Btn_Text.Location = New System.Drawing.Point(3, 206)
+        Me.Btn_Text.Name = "Btn_Text"
+        Me.Btn_Text.Size = New System.Drawing.Size(237, 95)
+        Me.Btn_Text.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.Btn_Text.TabIndex = 4
+        Me.Btn_Text.TabStop = False
         '
         'Btn_Output
         '
@@ -78,15 +101,6 @@ Partial Class Fr_Code
         Me.Btn_Actions.TabIndex = 0
         Me.Btn_Actions.TabStop = False
         '
-        'GB_Blocks
-        '
-        Me.GB_Blocks.Dock = System.Windows.Forms.DockStyle.Right
-        Me.GB_Blocks.Location = New System.Drawing.Point(240, 16)
-        Me.GB_Blocks.Name = "GB_Blocks"
-        Me.GB_Blocks.Size = New System.Drawing.Size(291, 900)
-        Me.GB_Blocks.TabIndex = 1
-        Me.GB_Blocks.TabStop = False
-        '
         'Fr_Code
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -100,6 +114,7 @@ Partial Class Fr_Code
         Me.Text = "Коструктор. Код"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GB_BF.ResumeLayout(False)
+        CType(Me.Btn_Text, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Btn_Output, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Btn_Actions, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -110,4 +125,5 @@ Partial Class Fr_Code
     Friend WithEvents GB_Blocks As GroupBox
     Friend WithEvents Btn_Actions As PictureBox
     Friend WithEvents Btn_Output As PictureBox
+    Friend WithEvents Btn_Text As PictureBox
 End Class
