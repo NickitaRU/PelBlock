@@ -42,7 +42,7 @@ Partial Class Fr_Debug
         'ComboBox1
         '
         Me.ComboBox1.FormattingEnabled = True
-        Me.ComboBox1.Items.AddRange(New Object() {"isMouseDown", "isVisualised", "StartPoint", "isBlockChosingShow", "Blocks", "BC", "GBBC", "MaxEvent", "GBBCh", "EventB", "EventT", "OutputB", "OutputT", "Conteiner", "BlockContent", "BlockParants", "viscont", "visblock", "VisConts", "VisGB", "Block"})
+        Me.ComboBox1.Items.AddRange(New Object() {"isMouseDown", "isVisualised", "StartPoint", "isBlockChosingShow", "Blocks", "BC", "GBBC", "MaxEvent", "GBBCh", "EventB", "EventT", "OutputB", "OutputT", "Conteiner", "BlockContent", "BlockParants", "viscont", "visblock", "VisConts", "VisGB", "Block", "CodDisc"})
         Me.ComboBox1.Location = New System.Drawing.Point(12, 56)
         Me.ComboBox1.Name = "ComboBox1"
         Me.ComboBox1.Size = New System.Drawing.Size(776, 21)

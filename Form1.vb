@@ -132,6 +132,7 @@
         AC = GBWFB(GBWFB.Count - 1)
         BlockParants.Add(AC)
         BlockContent.Add("{}")
+        CodeDisc.Add(Blocks(0)(blockindex) & "{}")
         FillEventBGB(AC, blockindex)
         AddHandler AC.MouseDown, AddressOf Move_MouseDown
         AddHandler AC.MouseUp, AddressOf Move_MouseUP
@@ -160,8 +161,9 @@
     Private Sub Fr_Code_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Fr_Stage.Show()
         Fr_Debug.Show()
-        FillBlocks()
-        AddHandler GB_WF.MouseUp, AddressOf Move_MouseUP
+		FillBlocks()
+		FillCalendar()
+		AddHandler GB_WF.MouseUp, AddressOf Move_MouseUP
         Block.Add(New List(Of Object)) 'link
         Block.Add(New List(Of Object)) 'name
         Block.Add(New List(Of Object)) 'parent
@@ -171,21 +173,23 @@
     End Sub
 
     Private Sub CreateOutputBlock(sender As Control, e As EventArgs)
+        Dim snp As New ArrayList 'sender name properts
         Dim AC As Control, blockname$ = ""
         Dim blockindex%
-
-        If ReadName(sender.Name).Count = 2 Then
-            blockindex = OutputB.IndexOf(ReadName(sender.Name)(1)) + EventB.Count
-        Else
-            blockindex = OutputB.IndexOf(ReadName(sender.Name)(2)) + EventB.Count
-        End If
-
-        If blockindex = -1 + EventB.Count Then
+        For Each i$ In ReadName(sender.Name)
+            blockindex = OutputB.IndexOf(i)
+            If blockindex <> -1 Then
+                blockindex += EventB.Count
+                Exit For
+            End If
+        Next
+        If blockindex = EventB.Count - 1 Then
             For i = 3 To sender.Name.Length - 1
-                If Not IsNumeric(sender.Name(i)) Then
-                    blockname += sender.Name(i)
-                Else
+                If IsNumeric(sender.Name(i + 1)) Then
                     Exit For
+                ElseIf sender.Name(i) = "_" Then
+                Else
+                    blockname += sender.Name(i)
                 End If
             Next
             blockindex = OutputB.IndexOf(blockname) + EventB.Count
@@ -205,7 +209,8 @@
         AC = GBWFB(GBWFB.Count - 1)
         BlockParants.Add(AC)
         BlockContent.Add("{}")
-        FillOutputBGB(AC, blockindex - EventB.Count)
+		CodeDisc.Add(Blocks(0)(blockindex) & "()")
+		FillOutputBGB(AC, blockindex - EventB.Count)
         AddHandler AC.MouseDown, AddressOf Move_MouseDown
         AddHandler AC.MouseUp, AddressOf Move_MouseUP
         AddHandler AC.MouseMove, AddressOf Move_MouseMove

@@ -5,3 +5,6 @@ dotnet_diagnostic.BC2001.severity = none
 
 # BC42104: Переменная используется до того, как ей было назначено значение
 dotnet_diagnostic.BC42104.severity = silent
+
+[*.{cs,vb}]
+indent_style=tab

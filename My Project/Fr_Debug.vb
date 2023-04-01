@@ -49,6 +49,10 @@
                 For Each i$ In Block(1)
                     Lst.Items.Add(ArrToString(FindBlockPropertes(i)))
                 Next
+            Case 21
+                For Each i In CodeDisc
+                    Lst.Items.Add(i)
+                Next
         End Select
     End Sub
 
