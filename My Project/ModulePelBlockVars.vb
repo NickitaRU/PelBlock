@@ -18,6 +18,8 @@
 	Public VisGB As Control
 	Public Block As New List(Of List(Of Object))
 	Public CodeDisc As New List(Of String)
-	Public calendar As New List(Of List(Of Action(Of Object)))
-
+	Public OnStartC As New List(Of Action(Of Object))
+	Public OnStopC As New List(Of Action(Of Object))
+	Public OnStartCArgs As New List(Of Object)
+	Public OnStopCArgs As New List(Of Object)
 End Module

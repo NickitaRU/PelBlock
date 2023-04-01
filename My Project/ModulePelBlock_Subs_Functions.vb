@@ -1,7 +1,6 @@
 ﻿Module ModulePelBlock_Subs_Functions
 	'Code sicription manipulations
 	Sub AddCodeDisc(name$, contname$)
-		MsgBox(name & vbCrLf & contname & vbCrLf & ArrToString(CodeDisc))
 		Dim list$
 		Dim ContI%
 		Dim FGC%
@@ -28,7 +27,6 @@
 			ElseIf list(i) = "}" Then
 				FGC -= 1
 				If FGC = 0 Then
-					MsgBox("Inserted")
 					list = list.Insert(i, objL & ",")
 				End If
 			End If
@@ -237,62 +235,63 @@
 		Dim wordbase$ = ""
 		For i = 0 To list.Length - 1
 			If list(i) = "{" Then
-				If name <> "" Then
-
-				End If
 				preres(0).Add(name)
-					Select Case name
-						Case "OnStart", "OnStop"
-							preres(1).Add(Nothing)
-					End Select
-					depth += 1
-					wordbase = name & "."
-					name = wordbase
-				ElseIf list(i) = "}" Then
+				Select Case name
+					Case "OnStart", "OnStop"
+						preres(1).Add("")
+				End Select
+				depth += 1
+				wordbase = name & "."
+				name = wordbase
+			ElseIf list(i) = "}" Then
+				If name <> "" Then
 					preres(0).Add(name)
 					Select Case name
 						Case "OnStart", "OnStop"
-							preres(1).Add(Nothing)
+							preres(1).Add("")
 					End Select
-					depth -= 1
-					For i2 = 0 To wordbase.LastIndexOf(".")
-						wordbase = wordbase.Remove(i2, 1)
-						wordbase = wordbase.Insert(i2, " ")
-					Next
-					wordbase = wordbase.Replace(" ", "")
-					name = wordbase
-				ElseIf list(i) = "," Then
+				End If
+				depth -= 1
+				For i2 = 0 To wordbase.LastIndexOf(".")
+					wordbase = wordbase.Remove(i2, 1)
+					wordbase = wordbase.Insert(i2, " ")
+				Next
+				wordbase = wordbase.Replace(" ", "")
+				name = wordbase
+			ElseIf list(i) = "," Then
+				If name <> "" Then
 					preres(0).Add(name)
 					Select Case name
 						Case "OnStart", "OnStop"
-							preres(1).Add(Nothing)
+							preres(1).Add("")
 					End Select
-					name = wordbase
-				ElseIf list(i) = "," And isArgb Then
+				End If
+				name = wordbase
+			ElseIf list(i) = "," And isArgb Then
+				preres(1).Add(name)
+			ElseIf list(i) = "(" Then
+				preres(0).Add(name)
+				If isArgb Then
 					preres(1).Add(name)
-				ElseIf list(i) = "(" Then
-					preres(0).Add(name)
-					If isArgb Then
-						preres(1).Add(name)
-					End If
-					isArgb = True
-					ArgbDepth += 1
-					wordbase = name & "."
-					name = wordbase
-				ElseIf list(i) = ")" Then
-					preres(1).Add(name)
-					ArgbDepth -= 1
-					If ArgbDepth = 0 Then
-						isArgb = False
-					End If
-					For i2 = 0 To wordbase.LastIndexOf(".")
-						wordbase = wordbase.Remove(i2, 1)
-						wordbase = wordbase.Insert(i2, " ")
-					Next
-					wordbase = wordbase.Replace(" ", "")
-					name = wordbase
-				Else
-					name += list(i)
+				End If
+				isArgb = True
+				ArgbDepth += 1
+				wordbase = name & "."
+				name = wordbase
+			ElseIf list(i) = ")" Then
+				preres(1).Add(name)
+				ArgbDepth -= 1
+				If ArgbDepth = 0 Then
+					isArgb = False
+				End If
+				For i2 = 0 To wordbase.LastIndexOf(".")
+					wordbase = wordbase.Remove(i2, 1)
+					wordbase = wordbase.Insert(i2, " ")
+				Next
+				wordbase = wordbase.Replace(" ", "")
+				name = wordbase
+			Else
+				name += list(i)
 			End If
 		Next
 
@@ -733,8 +732,8 @@
 	End Sub
 
 	Sub LaunchCode()
-		MsgBox("Пока не готово")
 		Build()
+		builded_project.Show()
 	End Sub
 
 End Module

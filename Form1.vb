@@ -162,7 +162,6 @@
         Fr_Stage.Show()
         Fr_Debug.Show()
 		FillBlocks()
-		FillCalendar()
 		AddHandler GB_WF.MouseUp, AddressOf Move_MouseUP
         Block.Add(New List(Of Object)) 'link
         Block.Add(New List(Of Object)) 'name
