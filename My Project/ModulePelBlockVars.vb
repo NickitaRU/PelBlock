@@ -6,10 +6,18 @@
 	Public Blocks As New List(Of List(Of String)), BC%, GBBC 'BC - block counter, GBBC - GB Blocks Counter
 	Public MaxEvent As New List(Of Integer)
 	Public GBBCh As New ArrayList, GBWFB As New ArrayList ' BBBCh - GB Blocks Choosing; GBWFB - GB_WF Blocks
-	Public EventB As New ArrayList From {"OnStart", "OnStop"}
+	Public EventB As New List(Of String) From {"OnStart", "OnStop"}
 	Public EventT As New ArrayList From {"При запуске программы", "При выключении програмы"}
-	Public OutputB As New ArrayList From {"MsgBox"}
+	Public OutputB As New List(Of String) From {"MsgBox"}
 	Public OutputT As New ArrayList From {"Вызвать окно вывода"}
+	Public OutPutC As New List(Of List(Of String)) From {EventB}
+	Public TextB As New List(Of String) From {"TextBox"}
+	Public TextT As New List(Of String) From {"Текст"}
+	Public TextC As New List(Of List(Of String)) From {OutputB}
+	Public FamilyNamePos As New List(Of Integer)
+	Public FamilyName As New List(Of String)
+	Public PersonalConteiner As New List(Of List(Of Object))
+	Public AllC As New Dictionary(Of Integer, Object)
 	Public Conteiner As New ArrayList
 	Public BlockContent As New List(Of String)
 	Public BlockParants As New List(Of GroupBox) '

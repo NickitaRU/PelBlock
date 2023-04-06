@@ -1,5 +1,78 @@
 ﻿Module ModulePelBlock_Subs_Functions
-	'Code sicription manipulations
+
+	Function GetFamalyNameFromName(name$) As String
+		Dim classtype$ = GetClassTypeFromName(name)
+		For Each i$ In Blocks(0)
+			If i = classtype Then
+				For i2 = 0 To FamilyNamePos.Count - 1 Step 2
+					If i2 < FamilyNamePos.Count - 1 AndAlso Blocks(0).IndexOf(i) >= FamilyNamePos(i2) And Blocks(0).IndexOf(i) <= FamilyNamePos(i2 + 1) Then
+						Return FamilyName(i2)
+						Exit Function
+					End If
+				Next
+			End If
+		Next
+		Return ""
+	End Function
+
+	Sub CountPesonalCont(obj As Control)
+		Dim ObjFamilyName As String = GetFamalyNameFromName(obj.Name)
+		Dim ObjC As List(Of List(Of String))
+		ObjC = AllC(FamilyName.IndexOf(ObjFamilyName))
+		For Each i In BlockParants
+			For Each i2 In ObjC
+				For Each i3 In i2
+					If GetClassTypeFromName(i.Name) = i3 Then
+						PersonalConteiner.Add(New List(Of Object) From {
+												i,
+												i.Location,
+												i.Location + i.Size})
+					End If
+				Next
+			Next
+		Next
+	End Sub
+
+	Sub RemoveBlock(AC As Control)
+		Dim i = Fr_Code.GB_Blocks.Controls.IndexOf(AC)
+		Fr_Code.GB_Blocks.Controls.Remove(AC)
+		GBBCh.Remove(GBBCh(GBBCh.Count() - 1))
+		Blocks(1)(i) -= 1
+		DeleteBlockPropertes(AC)
+		If Not AC.Controls(AC.Controls.Count - 1).Name.Contains("TextBox") Then
+			BlockContent.RemoveAt(BlockParants.IndexOf(AC))
+			BlockParants.Remove(AC)
+			BlockContent.RemoveAt(BlockParants.IndexOf(AC.Controls(AC.Controls.Count - 1)))
+			BlockParants.RemoveAt(BlockParants.IndexOf(AC.Controls(AC.Controls.Count - 1)))
+		End If
+	End Sub
+
+	Function GetClassTypeFromName(name$) As String
+		If ReadName(name).Count = 3 Then
+			Return ReadName(name)(1)
+			Exit Function
+		Else
+			For Each i$ In ReadName(name)
+				If Block(0).Contains(i) Then
+					Return i
+					Exit Function
+				End If
+			Next
+		End If
+		Return ""
+	End Function
+
+	Function FindBlockClassTypeIndex(name$) As Integer
+		For Each i$ In Blocks(0)
+			If i = name Then
+				Return Blocks(0).IndexOf(i)
+				Exit Function
+			End If
+		Next
+		Return -1
+	End Function
+
+	'Code description manipulations
 	Sub AddCodeDisc(name$, contname$)
 		Dim list$
 		Dim ContI%
@@ -34,7 +107,7 @@
 		CodeDisc(contCDI) = list
 	End Sub
 
-	'End Code sicription manipulations
+	'End Code description manipulations
 
 	'Logical Functions
 	Public Function isBI(obj As GroupBox) As Boolean 'is block inserted 
