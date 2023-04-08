@@ -18,19 +18,21 @@
 	Sub CountPesonalCont(obj As Control)
 		Dim ObjFamilyName As String = GetFamalyNameFromName(obj.Name)
 		Dim ObjC As List(Of List(Of String))
-		ObjC = AllC(FamilyName.IndexOf(ObjFamilyName))
-		For Each i In BlockParants
-			For Each i2 In ObjC
-				For Each i3 In i2
-					If GetClassTypeFromName(i.Name) = i3 Then
-						PersonalConteiner.Add(New List(Of Object) From {
-												i,
-												i.Location,
-												i.Location + i.Size})
-					End If
+		ObjC = AllC(ObjFamilyName)
+		If ObjC IsNot Nothing Then
+			For Each i In BlockParants
+				For Each i2 In ObjC
+					For Each i3 In i2
+						If GetClassTypeFromName(i.Name) = i3 Then
+							PersonalConteiner.Add(New List(Of Object) From {
+													i,
+													i.Location + New Size(-20, -20),
+													i.Location + i.Size + New Size(20, 20)})
+						End If
+					Next
 				Next
 			Next
-		Next
+		End If
 	End Sub
 
 	Sub RemoveBlock(AC As Control)

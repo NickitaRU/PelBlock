@@ -15,6 +15,7 @@
 			DisVisualize(viscont)
 			InsertBlock(viscont, sender)
 		End If
+		PersonalConteiner.Clear()
 	End Sub
 
 	Private Sub Label1_LocationChanged(ByVal sender As Object, ByVal e As System.EventArgs)
@@ -69,13 +70,10 @@
 			sender.Cursor = Cursors.Default
 		End If
 
-		For Each i As Control In Conteiner
-			Dim p1 As New Point(i.Left - 35, i.Top - 35)
-			Dim p2 As New Point(i.Left + i.Width + 35, i.Top - 35)
-			Dim p3 As New Point(i.Left + i.Width + 35, i.Top + i.Height + 35)
-			Dim ysl1 As Boolean = p1.X < sender.Left And sender.Left < p2.X
-			Dim ysl2 As Boolean = p1.Y < sender.Top And sender.Top < p3.Y
-			Dim AC As Control = i.Controls(i.Controls.Count - 1)
+		For Each i As List(Of Object) In PersonalConteiner
+			Dim ysl1 As Boolean = i(1).X < sender.Left And sender.Left < i(2).X
+			Dim ysl2 As Boolean = i(1).Y < sender.Top And sender.Top < i(2).Y
+			Dim AC As Control = i(0).Controls(i(0).Controls.Count - 1)
 			If ysl1 And ysl2 And Not isBI(sender) Then
 				Visualize(AC, sender)
 				Exit For
@@ -184,8 +182,9 @@
 		Block.Add(New List(Of Object)) 'Size
 		Block.Add(New List(Of Object)) 'pos in container
 		Block.Add(New List(Of Object)) 'pos in main cointainer
-		AllC.Add(0, OutPutC)
-		AllC.Add(1, TextC)
+		AllC.Add("Output", OutPutC)
+		AllC.Add("Text", TextC)
+		AllC.Add("Event", Nothing)
 	End Sub
 
 	Private Sub CreateOutputBlock(sender As Control, e As EventArgs)
@@ -434,6 +433,7 @@
 			isMouseDown = True
 			StartPoint = e.Location 'запоминаем текущую позицию элемента управления
 			sender.Cursor = Cursors.SizeAll 'меняем вид указателя мыши над элементом управления
+			CountPesonalCont(sender)
 		End If
 	End Sub
 
@@ -541,7 +541,4 @@
 		End If
 	End Sub
 
-	Private Sub Btn_Text_Click(sender As Object, e As EventArgs) Handles Btn_Text.Click
-
-	End Sub
 End Class

@@ -3,7 +3,7 @@
 	Public isVisualised As Boolean = False
 	Public StartPoint As Point 'начальная позиция элемента управления\
 	Public isBlockChosingShow As Boolean
-	Public Blocks As New List(Of List(Of String)), BC%, GBBC 'BC - block counter, GBBC - GB Blocks Counter
+	Public Blocks As New List(Of List(Of String)), BC%, GBBC% 'BC - block counter, GBBC - GB Blocks Counter
 	Public MaxEvent As New List(Of Integer)
 	Public GBBCh As New ArrayList, GBWFB As New ArrayList ' BBBCh - GB Blocks Choosing; GBWFB - GB_WF Blocks
 	Public EventB As New List(Of String) From {"OnStart", "OnStop"}
@@ -17,7 +17,7 @@
 	Public FamilyNamePos As New List(Of Integer)
 	Public FamilyName As New List(Of String)
 	Public PersonalConteiner As New List(Of List(Of Object))
-	Public AllC As New Dictionary(Of Integer, Object)
+	Public AllC As New Dictionary(Of String, Object)
 	Public Conteiner As New ArrayList
 	Public BlockContent As New List(Of String)
 	Public BlockParants As New List(Of GroupBox) '
