@@ -31,24 +31,24 @@
 							eName += iDecod(0)(i2)(i3)
 						End If
 					Next
-					Select Case name
-						Case "MsgBox"
-							Select Case eName
-								Case "OnStart"
-									OnStartC.Add(AddressOf BuildMsgBox)
-									OnStartCArgs.Add(args)
-								Case "OnStop"
-									OnStopC.Add(AddressOf BuildMsgBox)
-									OnStopCArgs.Add(args)
-							End Select
-					End Select
+					DistributorManger(name, eName, args)
 				End If
 			Next
 		Next
 	End Sub
 
+	Sub DistributorManger(pfName As String, eventName As String, args As Object)
+		MsgBox(ArrToString(AllE))
+		AllE(eventName).Add(AllPF(pfName))
+		AllEA(eventName).Add(args)
+	End Sub
+
 	Sub BuildMsgBox(prompt As String)
 		MsgBox(prompt)
+	End Sub
+
+	Sub AllPFFiller()
+		AllPF.Add("MsgBox", AddressOf BuildMsgBox)
 	End Sub
 
 End Module

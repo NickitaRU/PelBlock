@@ -30,4 +30,9 @@
 	Public OnStopC As New List(Of Action(Of Object))
 	Public OnStartCArgs As New List(Of Object)
 	Public OnStopCArgs As New List(Of Object)
+	Public Processor As New Dictionary(Of String, Action(Of Object))
+	Public Distributor As New Dictionary(Of String, Action(Of String, String, String))
+	Public AllE As New Dictionary(Of String, List(Of Action(Of Object)))
+	Public AllEA As New Dictionary(Of String, List(Of Object))
+	Public AllPF As New Dictionary(Of String, Action(Of Object))
 End Module

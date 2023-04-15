@@ -82,16 +82,17 @@
 		Dim objL$
 		Dim contCDI%
 		For Each i In CodeDisc
-			If i.Contains(contname) Then
-				list = i
-				contCDI = CodeDisc.IndexOf(i)
-				Exit For
-			End If
-		Next
-		For Each i In CodeDisc
 			If i.Contains(name) Then
 				objL = i
 				CodeDisc.Remove(i)
+				Exit For
+			End If
+		Next
+
+		For Each i In CodeDisc
+			If i.Contains(contname) Then
+				list = i
+				contCDI = CodeDisc.IndexOf(i)
 				Exit For
 			End If
 		Next
@@ -203,6 +204,16 @@
 	'End Block propertes manipulations
 
 	'Array To String
+
+	Function ArrToString(lst As Object, Optional sep As String = ", ") As String
+		Dim preres$ = ""
+		Dim vals As Dictionary(Of String, List(Of Action(Of Object))).ValueCollection = lst.Values
+		Dim keys As Dictionary(Of String, List(Of Action(Of Object))).KeyCollection = lst.Keys
+		For i = 0 To vals.Count - 1
+			preres += "'" & keys(i) & "'" & vals(i).ToString & vbCrLf
+		Next
+		Return preres
+	End Function
 
 	Function ArrToString(lst As List(Of Control), Optional sep As String = ", ") As String
 		Dim preres$ = ""

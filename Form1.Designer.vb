@@ -25,10 +25,10 @@ Partial Class Fr_Code
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Fr_Code))
         Me.GB_WF = New System.Windows.Forms.GroupBox()
         Me.GB_BF = New System.Windows.Forms.GroupBox()
-        Me.GB_Blocks = New System.Windows.Forms.GroupBox()
         Me.Btn_Text = New System.Windows.Forms.PictureBox()
         Me.Btn_Output = New System.Windows.Forms.PictureBox()
         Me.Btn_Actions = New System.Windows.Forms.PictureBox()
+        Me.GB_Blocks = New System.Windows.Forms.GroupBox()
         Me.GB_BF.SuspendLayout()
         CType(Me.Btn_Text, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btn_Output, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -40,9 +40,9 @@ Partial Class Fr_Code
         Me.GB_WF.Dock = System.Windows.Forms.DockStyle.Right
         Me.GB_WF.Font = New System.Drawing.Font("Microsoft Sans Serif", 15.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(204, Byte))
         Me.GB_WF.ForeColor = System.Drawing.SystemColors.ControlText
-        Me.GB_WF.Location = New System.Drawing.Point(221, 0)
+        Me.GB_WF.Location = New System.Drawing.Point(537, 0)
         Me.GB_WF.Name = "GB_WF"
-        Me.GB_WF.Size = New System.Drawing.Size(1063, 919)
+        Me.GB_WF.Size = New System.Drawing.Size(747, 919)
         Me.GB_WF.TabIndex = 1
         Me.GB_WF.TabStop = False
         '
@@ -58,15 +58,6 @@ Partial Class Fr_Code
         Me.GB_BF.Size = New System.Drawing.Size(534, 919)
         Me.GB_BF.TabIndex = 2
         Me.GB_BF.TabStop = False
-        '
-        'GB_Blocks
-        '
-        Me.GB_Blocks.Dock = System.Windows.Forms.DockStyle.Right
-        Me.GB_Blocks.Location = New System.Drawing.Point(240, 16)
-        Me.GB_Blocks.Name = "GB_Blocks"
-        Me.GB_Blocks.Size = New System.Drawing.Size(291, 900)
-        Me.GB_Blocks.TabIndex = 1
-        Me.GB_Blocks.TabStop = False
         '
         'Btn_Text
         '
@@ -100,6 +91,15 @@ Partial Class Fr_Code
         Me.Btn_Actions.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
         Me.Btn_Actions.TabIndex = 0
         Me.Btn_Actions.TabStop = False
+        '
+        'GB_Blocks
+        '
+        Me.GB_Blocks.Dock = System.Windows.Forms.DockStyle.Right
+        Me.GB_Blocks.Location = New System.Drawing.Point(240, 16)
+        Me.GB_Blocks.Name = "GB_Blocks"
+        Me.GB_Blocks.Size = New System.Drawing.Size(291, 900)
+        Me.GB_Blocks.TabIndex = 1
+        Me.GB_Blocks.TabStop = False
         '
         'Fr_Code
         '

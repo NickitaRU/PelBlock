@@ -185,6 +185,11 @@
 		AllC.Add("Output", OutPutC)
 		AllC.Add("Text", TextC)
 		AllC.Add("Event", Nothing)
+		AllE.Add("OnStart", OnStartC)
+		AllEA.Add("OnStart", OnStartCArgs)
+		AllE.Add("OnStop", OnStopC)
+		AllEA.Add("OnStop", OnStopCArgs)
+		AllPFFiller()
 	End Sub
 
 	Private Sub CreateOutputBlock(sender As Control, e As EventArgs)
@@ -473,6 +478,8 @@
 									.Enabled = Not isExample
 									})
 
+		AddBlockContent(GB, "Block", GB.Controls(GB.Controls.Count - 1))
+
 		If isExample Then
 			For Each i As Control In GB.Controls
 				AddHandler i.Click, AddressOf CreateTextBlock
@@ -516,8 +523,10 @@
 			Dim AC As Control
 			Dim ForC$
 			ForC = GetClassTypeFromName(sender.Name)
+			Dim w2 As Integer = Convert.ToInt32(sender.Width / 2)
+			Dim h2 As Integer = Convert.ToInt32(sender.Height / 2)
 			GB_WF.Controls.Add(New GroupBox With {
-										.Location = New Point(0, GBBC * 110 + 7),
+										.Location = New Point(Convert.ToInt32(GB_WF.ClientSize.Width / 2) - w2, Convert.ToInt32(GB_WF.ClientSize.Height / 2) - h2),
 										.Name = "GB_" & ForC & "_" & Blocks(1)(FindBlockClassTypeIndex(ForC)),
 										.AutoSize = False,
 										.AutoSizeMode = AutoSizeMode.GrowOnly,
@@ -534,11 +543,10 @@
 			AddHandler AC.MouseDown, AddressOf Move_MouseDown
 			AddHandler AC.MouseUp, AddressOf Move_MouseUP
 			AddHandler AC.MouseMove, AddressOf Move_MouseMove
-			AddHandler AC.LocationChanged, AddressOf Move_LocationChanged
+			AddHandler AC.LocationChanged, AddressOf Move_OTLocationChanged
 			BlockContent.Add("{}")
 			FillTextBGB(AC, ForC)
 			Blocks(1)(FindBlockClassTypeIndex(ForC)) += 1
 		End If
 	End Sub
-
 End Class
