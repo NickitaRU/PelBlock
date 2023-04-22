@@ -484,7 +484,28 @@
 			For Each i As Control In GB.Controls
 				AddHandler i.Click, AddressOf CreateTextBlock
 			Next
+		Else
+			CreateTextBoxPr(GB.Controls(GB.Controls.Count - 1))
+			AddHandler GB.Controls(GB.Controls.Count - 1).TextChanged, AddressOf TextBlock_TextChaged
 		End If
+	End Sub
+
+	Sub TextBlock_TextChaged(sender As Object, e As EventArgs)
+		Dim txtpr As List(Of Object) = FindTextBoxPr(sender)
+		Dim list$ = CodeDisc(txtpr(2))
+		Dim txtPol As Point = FindTextPlace(sender)
+		If txtPol.Y - txtPol.X = 1 Then
+			list = list.Insert(txtPol.X + 1, sender.text)
+		ElseIf txtPol.Y - txtPol.X > 1 Then
+			For i = txtPol.X + 1 To txtPol.Y - 1
+				list = list.Remove(i, 1)
+				list = list.Insert(i, " ")
+			Next
+			list = list.Replace(" ", "")
+			list = list.Insert(txtpr(3).X + 1, sender.text)
+		End If
+		RecountTextBoxPr(sender)
+		CodeDisc(txtpr(2)) = list
 	End Sub
 
 	Sub CreateTextBlock(sender As Object, e As EventArgs) Handles Btn_Text.Click
@@ -544,7 +565,6 @@
 			AddHandler AC.MouseUp, AddressOf Move_MouseUP
 			AddHandler AC.MouseMove, AddressOf Move_MouseMove
 			AddHandler AC.LocationChanged, AddressOf Move_OTLocationChanged
-			BlockContent.Add("{}")
 			FillTextBGB(AC, ForC)
 			Blocks(1)(FindBlockClassTypeIndex(ForC)) += 1
 		End If

@@ -1,5 +1,54 @@
 ﻿Module ModulePelBlock_Subs_Functions
 
+	Function FindTextPlace(obj As Control) As Point
+		Dim preres As Point
+		Dim list$ = CodeDisc.Last
+		Dim x%, y%, deep%
+		For i = 0 To list.Length - 1
+			If list(i) = "(" Then
+				x = i
+				deep += 1
+			ElseIf list(i) = ")" Then
+				deep -= 1
+				If deep = 0 Then
+					y = i
+					Exit For
+				End If
+			End If
+		Next
+		preres = New Point(x, y)
+		Return preres
+	End Function
+
+	Function FindTextBoxPr(obj As Control) As List(Of Object)
+		For Each i In TextBoxPr
+			If i(1) = obj.Name Then
+				Return i
+				Exit For
+			End If
+		Next
+		Return Nothing
+	End Function
+
+	Sub RecountTextBoxPr(obj As Control)
+		Dim txtbxpr As New List(Of Object)
+		txtbxpr = FindTextBoxPr(obj)
+		Dim txtbxprI As Integer = TextBoxPr.IndexOf(txtbxpr)
+		txtbxpr(0) = obj
+		txtbxpr(1) = obj.Name
+		txtbxpr(3) = FindTextPlace(obj)
+		TextBoxPr(txtbxprI) = txtbxpr
+	End Sub
+
+	Sub CreateTextBoxPr(obj As Control)
+		TextBoxPr.Add(New List(Of Object) From {
+					  obj,
+					  obj.Name,
+					  CodeDisc.Count - 1,
+					  FindTextPlace(obj)
+					  })
+	End Sub
+
 	Function GetFamalyNameFromName(name$) As String
 		Dim classtype$ = GetClassTypeFromName(name)
 		For Each i$ In Blocks(0)
@@ -399,6 +448,16 @@
 		Return preres
 	End Function
 
+	Function FindBlockParentIndexByName(objName As String) As Integer
+		For i = 0 To BlockParants.Count - 1
+			If BlockParants(i).Name = objName Then
+				Return i
+				Exit For
+			End If
+		Next
+		Return -1
+	End Function
+
 	Function ReadBlockContent(cont As Control) As List(Of String)
 		Dim preres As New List(Of String)
 		Dim word$ = ""
@@ -407,7 +466,7 @@
 		Dim IsWordBaseNeeded As Boolean = False
 		Dim IsFGC As Boolean = False
 
-		list = BlockContent(BlockParants.IndexOf(cont))
+		list = BlockContent(FindBlockParentIndexByName(cont.Name))
 		For i = 1 To list.Length - 2
 			Dim letter As Char = list(i)
 			If letter = "," And word <> "" And word <> wordbase Then
@@ -741,7 +800,7 @@
 				If i Is "" Then
 					Exit For
 				End If
-				Dim objEClone As Control = obj.Controls.Find(objECloneName, False)(0)
+				Dim objEClone As Control = FindBlockPropertes(objECloneName)(0)
 				If i.Contains("cont") Then
 					VisGB.Controls.Add(New GroupBox With {
 												.Name = "Visual_GB_" & objEClone.Name,
@@ -755,7 +814,7 @@
 					BlockContent.Add("{}")
 					VisConts.Add(VisGB)
 				ElseIf i.Contains("Lbl") Then
-					Dim objECloneLbl As Label = obj.Controls.Find(objECloneName, False)(0)
+					Dim objECloneLbl As Label = FindBlockPropertes(objECloneName)(0)
 					Dim parentindex%
 					Dim parent$ = ""
 					Dim VisParent As Control = VisGB

@@ -31,14 +31,15 @@
 							eName += iDecod(0)(i2)(i3)
 						End If
 					Next
-					DistributorManger(name, eName, args)
+					If name <> eName Then
+						DistributorManger(name, eName, args)
+					End If
 				End If
 			Next
 		Next
 	End Sub
 
 	Sub DistributorManger(pfName As String, eventName As String, args As Object)
-		MsgBox(ArrToString(AllE))
 		AllE(eventName).Add(AllPF(pfName))
 		AllEA(eventName).Add(args)
 	End Sub
@@ -50,7 +51,6 @@
 	Sub AllPFFiller()
 		AllPF.Add("MsgBox", AddressOf BuildMsgBox)
 	End Sub
-
 End Module
 
 Class ClassBuild

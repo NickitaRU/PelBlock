@@ -35,4 +35,5 @@
 	Public AllE As New Dictionary(Of String, List(Of Action(Of Object)))
 	Public AllEA As New Dictionary(Of String, List(Of Object))
 	Public AllPF As New Dictionary(Of String, Action(Of Object))
+	Public TextBoxPr As New List(Of List(Of Object))
 End Module
