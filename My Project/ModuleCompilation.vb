@@ -3,34 +3,39 @@
 	Sub Build()
 		For Each i$ In CodeDisc
 			Dim iDecod As List(Of List(Of String)) = ReadCodeDisc(i)
+			MsgBox(ArrToString(iDecod, "|"))
 			For i2 = 0 To iDecod(0).Count - 1
 				If iDecod(0)(i2) <> "" Then
 					Dim name$ = ""
 					Dim args = ""
 					Dim eName$ = ""
+					MsgBox(iDecod(0)(i2))
 					For i3 = iDecod(0)(i2).Length - 1 To 0 Step -1
-						If iDecod(0)(i2)(i3) = "." Then
+						If IsNumeric(iDecod(0)(i2)(i3)) OrElse iDecod(0)(i2)(i3) = "." Then
 							Exit For
 						Else
 							name = name.Insert(0, iDecod(0)(i2)(i3))
 						End If
 					Next
-					If iDecod(1)(i2).Length > 0 Then
-						For i3 = iDecod(1)(i2).Length - 1 To 0 Step -1
-							If iDecod(1)(i2)(i3) = "." Then
-								Exit For
-							Else
-								args = args.Insert(0, iDecod(1)(i2)(i3))
-							End If
-						Next
+					If iDecod(1).Count > i2 Then
+						If iDecod(1)(i2).Length > 0 Then
+							For i3 = iDecod(1)(i2).Length - 1 To 0 Step -1
+								If iDecod(1)(i2)(i3) = "." Then
+									Exit For
+								Else
+									args = args.Insert(0, iDecod(1)(i2)(i3))
+								End If
+							Next
+						End If
 					End If
 					For i3 = 0 To iDecod(0)(i2).Length - 1
-						If iDecod(0)(i2)(i3) = "." Then
+						If IsNumeric(iDecod(0)(i2)(i3)) OrElse iDecod(0)(i2)(i3) = "." Then
 							Exit For
 						Else
 							eName += iDecod(0)(i2)(i3)
 						End If
 					Next
+					MsgBox(name & " - name" & vbCrLf & eName & " - eName" & vbCrLf & args & " - args")
 					If name <> eName Then
 						DistributorManger(name, eName, args)
 					End If
@@ -40,8 +45,10 @@
 	End Sub
 
 	Sub DistributorManger(pfName As String, eventName As String, args As Object)
-		AllE(eventName).Add(AllPF(pfName))
-		AllEA(eventName).Add(args)
+		If pfName <> "" Then
+			AllE(eventName).Add(AllPF(pfName))
+			AllEA(eventName).Add(args)
+		End If
 	End Sub
 
 	Sub BuildMsgBox(prompt As String)

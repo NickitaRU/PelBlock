@@ -130,7 +130,7 @@
 		AC = GBWFB(GBWFB.Count - 1)
 		BlockParants.Add(AC)
 		BlockContent.Add("{}")
-		CodeDisc.Add(Blocks(0)(blockindex) & "{}")
+		CodeDisc.Add(Blocks(0)(blockindex) & Blocks(1)(blockindex) & "{}")
 		FillEventBGB(AC, blockindex)
 		AddHandler AC.MouseDown, AddressOf Move_MouseDown
 		AddHandler AC.MouseUp, AddressOf Move_MouseUP
@@ -229,7 +229,7 @@
 		AC = GBWFB(GBWFB.Count - 1)
 		BlockParants.Add(AC)
 		BlockContent.Add("{}")
-		CodeDisc.Add(Blocks(0)(blockindex) & "()")
+		CodeDisc.Add(Blocks(0)(blockindex) & Blocks(1)(blockindex) & "()")
 		FillOutputBGB(AC, blockindex - EventB.Count)
 		AddHandler AC.MouseDown, AddressOf Move_MouseDown
 		AddHandler AC.MouseUp, AddressOf Move_MouseUP
@@ -558,7 +558,7 @@
 			GBBC += 1
 			GBWFB.Add(GB_WF.Controls.Find("GB_" & ForC & "_" & Blocks(1)(FindBlockClassTypeIndex(ForC)), False)(0))
 			AC = GBWFB(GBWFB.Count - 1)
-			CodeDisc.Add(Blocks(0)(FindBlockClassTypeIndex(ForC)) & "()")
+			CodeDisc.Add(Blocks(0)(FindBlockClassTypeIndex(ForC)) & Blocks(1)(FindBlockClassTypeIndex(ForC)) & "()")
 			BlockContent.Add("{}")
 			BlockParants.Add(AC)
 			AddHandler AC.MouseDown, AddressOf Move_MouseDown
@@ -568,5 +568,9 @@
 			FillTextBGB(AC, ForC)
 			Blocks(1)(FindBlockClassTypeIndex(ForC)) += 1
 		End If
+	End Sub
+
+	Private Sub Button1_Click_1(sender As Object, e As EventArgs) Handles Button1.Click
+		LaunchCode()
 	End Sub
 End Class

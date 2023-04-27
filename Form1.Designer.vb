@@ -29,6 +29,7 @@ Partial Class Fr_Code
         Me.Btn_Output = New System.Windows.Forms.PictureBox()
         Me.Btn_Actions = New System.Windows.Forms.PictureBox()
         Me.GB_Blocks = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.GB_BF.SuspendLayout()
         CType(Me.Btn_Text, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btn_Output, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -48,6 +49,7 @@ Partial Class Fr_Code
         '
         'GB_BF
         '
+        Me.GB_BF.Controls.Add(Me.Button1)
         Me.GB_BF.Controls.Add(Me.Btn_Text)
         Me.GB_BF.Controls.Add(Me.Btn_Output)
         Me.GB_BF.Controls.Add(Me.Btn_Actions)
@@ -101,6 +103,15 @@ Partial Class Fr_Code
         Me.GB_Blocks.TabIndex = 1
         Me.GB_Blocks.TabStop = False
         '
+        'Button1
+        '
+        Me.Button1.Location = New System.Drawing.Point(3, 307)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(237, 74)
+        Me.Button1.TabIndex = 3
+        Me.Button1.Text = "Button1"
+        Me.Button1.UseVisualStyleBackColor = True
+        '
         'Fr_Code
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -126,4 +137,5 @@ Partial Class Fr_Code
     Friend WithEvents Btn_Actions As PictureBox
     Friend WithEvents Btn_Output As PictureBox
     Friend WithEvents Btn_Text As PictureBox
+    Friend WithEvents Button1 As Button
 End Class

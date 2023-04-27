@@ -137,7 +137,18 @@
 				Exit For
 			End If
 		Next
-
+		MsgBox(name & " - name" & vbCrLf & contname & "- contname" & vbCrLf & objL & "- objL")
+		If objL.Contains("TextBox") Then
+			Dim preObjL$ = ""
+			For i = objL.Length - 2 To 0 Step -1
+				If objL(i) <> "(" Then
+					preObjL = preObjL.Insert(0, objL(i))
+				Else
+					Exit For
+				End If
+			Next
+			objL = preObjL
+		End If
 		For Each i In CodeDisc
 			If i.Contains(contname) Then
 				list = i
@@ -147,12 +158,12 @@
 		Next
 		ContI = list.IndexOf(contname)
 		For i = ContI To list.Length - 1
-			If list(i) = "{" Then
+			If list(i) = "{" OrElse list(i) = "(" Then
 				FGC += 1
-			ElseIf list(i) = "}" Then
+			ElseIf list(i) = "}" OrElse list(i) = ")" Then
 				FGC -= 1
 				If FGC = 0 Then
-					list = list.Insert(i, objL & ",")
+					list = list.Insert(i, objL)
 				End If
 			End If
 		Next
@@ -368,7 +379,9 @@
 		Dim isArgb As Boolean
 		Dim ArgbDepth%
 		Dim wordbase$ = ""
+		MsgBox(list)
 		For i = 0 To list.Length - 1
+			Fr_Debug.Lst.Items.Add(list(i))
 			If list(i) = "{" Then
 				preres(0).Add(name)
 				Select Case name
@@ -415,6 +428,7 @@
 				name = wordbase
 			ElseIf list(i) = ")" Then
 				preres(1).Add(name)
+				MsgBox(name)
 				ArgbDepth -= 1
 				If ArgbDepth = 0 Then
 					isArgb = False
@@ -428,6 +442,7 @@
 			Else
 				name += list(i)
 			End If
+			Fr_Debug.Lst.Items.Add("isArgb -" & isArgb.ToString & " " & name)
 		Next
 
 		Return preres
