@@ -1,8 +1,29 @@
 ﻿Module ModulePelBlock_Subs_Functions
 
+	Function GetEType(raw As String) As String
+		Dim preres$ = ""
+		For i = raw.Length - 1 To 0 Step -1
+			If Not IsNumeric(raw(i)) And raw(i) <> "-" Then
+				preres = preres.Insert(0, raw(i))
+			End If
+		Next
+		Return preres
+	End Function
+
+	Function FindCodeDiscIndex(obj As Control) As Integer
+		Dim preres%
+		For Each i In CodeDisc
+			If i.Contains(ReadName(obj.Name)(2) & ReadName(obj.Name)(3)) Then
+				preres = CodeDisc.IndexOf(i)
+				Exit For
+			End If
+		Next
+		Return preres
+	End Function
+
 	Function FindTextPlace(obj As Control) As Point
 		Dim preres As Point
-		Dim list$ = CodeDisc.Last
+		Dim list$ = CodeDisc(FindCodeDiscIndex(obj))
 		Dim x%, y%, deep%
 		For i = 0 To list.Length - 1
 			If list(i) = "(" Then
@@ -31,11 +52,11 @@
 	End Function
 
 	Sub RecountTextBoxPr(obj As Control)
-		Dim txtbxpr As New List(Of Object)
-		txtbxpr = FindTextBoxPr(obj)
+		Dim txtbxpr As List(Of Object) = FindTextBoxPr(obj)
 		Dim txtbxprI As Integer = TextBoxPr.IndexOf(txtbxpr)
 		txtbxpr(0) = obj
 		txtbxpr(1) = obj.Name
+		txtbxpr(2) = FindCodeDiscIndex(obj)
 		txtbxpr(3) = FindTextPlace(obj)
 		TextBoxPr(txtbxprI) = txtbxpr
 	End Sub
@@ -137,18 +158,17 @@
 				Exit For
 			End If
 		Next
-		MsgBox(name & " - name" & vbCrLf & contname & "- contname" & vbCrLf & objL & "- objL")
-		If objL.Contains("TextBox") Then
-			Dim preObjL$ = ""
-			For i = objL.Length - 2 To 0 Step -1
-				If objL(i) <> "(" Then
-					preObjL = preObjL.Insert(0, objL(i))
-				Else
-					Exit For
-				End If
-			Next
-			objL = preObjL
-		End If
+		'If objL.Contains("TextBox") Then
+		'	Dim preObjL$ = ""
+		'	For i = objL.Length - 2 To 0 Step -1
+		'		If objL(i) <> "(" Then
+		'			preObjL = preObjL.Insert(0, objL(i))
+		'		Else
+		'			Exit For
+		'		End If
+		'	Next
+		'	objL = preObjL
+		'End If
 		For Each i In CodeDisc
 			If i.Contains(contname) Then
 				list = i
@@ -379,12 +399,11 @@
 		Dim isArgb As Boolean
 		Dim ArgbDepth%
 		Dim wordbase$ = ""
-		MsgBox(list)
 		For i = 0 To list.Length - 1
 			Fr_Debug.Lst.Items.Add(list(i))
 			If list(i) = "{" Then
 				preres(0).Add(name)
-				Select Case name
+				Select Case GetEType(name)
 					Case "OnStart", "OnStop"
 						preres(1).Add("")
 				End Select
@@ -394,7 +413,7 @@
 			ElseIf list(i) = "}" Then
 				If name <> "" Then
 					preres(0).Add(name)
-					Select Case name
+					Select Case GetEType(name)
 						Case "OnStart", "OnStop"
 							preres(1).Add("")
 					End Select
@@ -409,7 +428,7 @@
 			ElseIf list(i) = "," Then
 				If name <> "" Then
 					preres(0).Add(name)
-					Select Case name
+					Select Case GetEType(name)
 						Case "OnStart", "OnStop"
 							preres(1).Add("")
 					End Select
@@ -418,29 +437,31 @@
 			ElseIf list(i) = "," And isArgb Then
 				preres(1).Add(name)
 			ElseIf list(i) = "(" Then
-				preres(0).Add(name)
-				If isArgb Then
+				If Not name.Contains("TextBox") Then
+					preres(0).Add(name)
+					MsgBox(name)
+				End If
+				If isArgb And Not name.Contains("TextBox") Then
 					preres(1).Add(name)
 				End If
 				isArgb = True
-				ArgbDepth += 1
-				wordbase = name & "."
-				name = wordbase
-			ElseIf list(i) = ")" Then
-				preres(1).Add(name)
-				MsgBox(name)
-				ArgbDepth -= 1
-				If ArgbDepth = 0 Then
-					isArgb = False
-				End If
-				For i2 = 0 To wordbase.LastIndexOf(".")
-					wordbase = wordbase.Remove(i2, 1)
-					wordbase = wordbase.Insert(i2, " ")
-				Next
-				wordbase = wordbase.Replace(" ", "")
-				name = wordbase
-			Else
-				name += list(i)
+					ArgbDepth += 1
+					wordbase = name & "."
+					name = wordbase
+				ElseIf list(i) = ")" Then
+					preres(1).Add(name)
+					ArgbDepth -= 1
+					If ArgbDepth = 0 Then
+						isArgb = False
+					End If
+					For i2 = 0 To wordbase.LastIndexOf(".")
+						wordbase = wordbase.Remove(i2, 1)
+						wordbase = wordbase.Insert(i2, " ")
+					Next
+					wordbase = wordbase.Replace(" ", "")
+					name = wordbase
+				Else
+					name += list(i)
 			End If
 			Fr_Debug.Lst.Items.Add("isArgb -" & isArgb.ToString & " " & name)
 		Next
@@ -886,9 +907,12 @@
 		block.Location = LastInnerPos(cont)
 		cont.Controls.Add(block)
 		AddBlockContent(cont, "GB", block)
-		AddCodeDisc(ReadName(block.Name)(1), ReadName(cont.Name)(2))
+		AddCodeDisc(ReadName(block.Name)(1) & ReadName(block.Name)(2), ReadName(cont.Name)(2) & ReadName(cont.Name)(3))
 		RecountBlockProperties(block.Name)
 		BlockReSize(cont.Parent)
+		For i = 0 To TextBoxPr.Count - 1
+			RecountTextBoxPr(TextBoxPr(i)(0))
+		Next
 	End Sub
 
 	Sub LaunchCode()
