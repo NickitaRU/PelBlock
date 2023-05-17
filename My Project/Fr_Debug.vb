@@ -38,14 +38,20 @@
             Case 15
                 Lst.Items.Add(ArrToString(BlockParants))
             Case 16
-                Lst.Items.Add(viscont.Name)
-            Case 17
-                Lst.Items.Add(visblock.Name)
-            Case 18
+				If viscont IsNot Nothing Then
+					Lst.Items.Add(viscont.Name)
+				End If
+			Case 17
+				If visblock IsNot Nothing Then
+					Lst.Items.Add(visblock.Name)
+				End If
+			Case 18
                 Lst.Items.Add(ArrToString(VisConts))
-            Case 19
-                Lst.Items.Add(VisGB.Name)
-            Case 20
+			Case 19
+				If VisGB IsNot Nothing Then
+					Lst.Items.Add(VisGB.Name)
+				End If
+			Case 20
                 For Each i$ In Block(1)
                     Lst.Items.Add(ArrToString(FindBlockPropertes(i)))
                 Next
@@ -59,4 +65,11 @@
     Private Sub Lst_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lst.SelectedIndexChanged
 
     End Sub
+
+	Private Sub Fr_Debug_Shown(sender As Object, e As EventArgs) Handles Me.Shown
+		Dim Tmr As New Timer With {
+								.Interval = 1000,
+								.Enabled = True}
+		AddHandler Tmr.Tick, AddressOf ComboBox1_SelectedIndexChanged
+	End Sub
 End Class

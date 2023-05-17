@@ -278,17 +278,7 @@
 
 	'Array To String
 
-	Function ArrToString(lst As Dictionary(Of String, List(Of Object)), Optional sep As String = ", ") As String
-		Dim preres$ = ""
-		Dim vals As Dictionary(Of String, List(Of Object)).ValueCollection = lst.Values
-		Dim keys As Dictionary(Of String, List(Of Object)).KeyCollection = lst.Keys
-		For i = 0 To vals.Count - 1
-			preres += "'" & keys(i) & "'" & vals(i).ToString & vbCrLf
-		Next
-		Return preres
-	End Function
-
-	Function ArrToString(lst As Dictionary(Of String, List(Of Action(Of Object))), Optional sep As String = ", ") As String
+	Function ArrToString(lst As Object, Optional sep As String = ", ") As String
 		Dim preres$ = ""
 		Dim vals As Dictionary(Of String, List(Of Action(Of Object))).ValueCollection = lst.Values
 		Dim keys As Dictionary(Of String, List(Of Action(Of Object))).KeyCollection = lst.Keys
@@ -296,7 +286,6 @@
 			preres += "'" & keys(i) & "'" & vals(i).ToString & vbCrLf
 		Next
 		Return preres
-
 	End Function
 
 	Function ArrToString(lst As List(Of Control), Optional sep As String = ", ") As String
@@ -924,7 +913,7 @@
 		block.Location = LastInnerPos(cont)
 		cont.Controls.Add(block)
 		AddBlockContent(cont, "GB", block)
-		AddCodeDisc(ReadName(block.Name)(1) & ReadName(block.Name)(2), ReadName(cont.Name)(2) & ReadName(cont.Name)(3))
+		AddCodeDisc(ReadName(block.Name)(1) & ReadName(block.Name)(2), ReadName(cont.Name)(2))
 		RecountBlockProperties(block.Name)
 		BlockReSize(cont.Parent)
 	End Sub

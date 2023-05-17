@@ -174,7 +174,7 @@
 	Private Sub Fr_Code_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 		If Not wasShown Then
 			'Fr_Stage.Show()
-			Fr_Debug.Show()
+			'Fr_Debug.Show()
 			FillBlocks()
 			Block.Add(New List(Of Object)) 'link
 			Block.Add(New List(Of Object)) 'name
@@ -576,9 +576,5 @@
 
 	Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
 		Me.Close()
-	End Sub
-
-	Private Sub GB_Blocks_Enter(sender As Object, e As EventArgs) Handles GB_Blocks.Enter
-
 	End Sub
 End Class

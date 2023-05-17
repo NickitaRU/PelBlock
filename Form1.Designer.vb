@@ -25,15 +25,18 @@ Partial Class Fr_Code
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Fr_Code))
         Me.GB_WF = New System.Windows.Forms.GroupBox()
         Me.GB_BF = New System.Windows.Forms.GroupBox()
+        Me.Button1 = New System.Windows.Forms.PictureBox()
         Me.Btn_Text = New System.Windows.Forms.PictureBox()
         Me.Btn_Output = New System.Windows.Forms.PictureBox()
         Me.Btn_Actions = New System.Windows.Forms.PictureBox()
         Me.GB_Blocks = New System.Windows.Forms.GroupBox()
-        Me.Button1 = New System.Windows.Forms.Button()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.GB_BF.SuspendLayout()
+        CType(Me.Button1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btn_Text, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btn_Output, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btn_Actions, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'GB_WF
@@ -49,6 +52,7 @@ Partial Class Fr_Code
         '
         'GB_BF
         '
+        Me.GB_BF.Controls.Add(Me.PictureBox1)
         Me.GB_BF.Controls.Add(Me.Button1)
         Me.GB_BF.Controls.Add(Me.Btn_Text)
         Me.GB_BF.Controls.Add(Me.Btn_Output)
@@ -60,6 +64,17 @@ Partial Class Fr_Code
         Me.GB_BF.Size = New System.Drawing.Size(534, 919)
         Me.GB_BF.TabIndex = 2
         Me.GB_BF.TabStop = False
+        '
+        'Button1
+        '
+        Me.Button1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Button1.Image = Global.PelBlock.My.Resources.Resources.Start
+        Me.Button1.Location = New System.Drawing.Point(3, 301)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(237, 95)
+        Me.Button1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.Button1.TabIndex = 5
+        Me.Button1.TabStop = False
         '
         'Btn_Text
         '
@@ -103,14 +118,16 @@ Partial Class Fr_Code
         Me.GB_Blocks.TabIndex = 1
         Me.GB_Blocks.TabStop = False
         '
-        'Button1
+        'PictureBox1
         '
-        Me.Button1.Location = New System.Drawing.Point(3, 307)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(237, 74)
-        Me.Button1.TabIndex = 3
-        Me.Button1.Text = "Button1"
-        Me.Button1.UseVisualStyleBackColor = True
+        Me.PictureBox1.Dock = System.Windows.Forms.DockStyle.Top
+        Me.PictureBox1.Image = CType(resources.GetObject("PictureBox1.Image"), System.Drawing.Image)
+        Me.PictureBox1.Location = New System.Drawing.Point(3, 396)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(237, 95)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage
+        Me.PictureBox1.TabIndex = 6
+        Me.PictureBox1.TabStop = False
         '
         'Fr_Code
         '
@@ -125,9 +142,11 @@ Partial Class Fr_Code
         Me.Text = "Коструктор. Код"
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         Me.GB_BF.ResumeLayout(False)
+        CType(Me.Button1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Btn_Text, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Btn_Output, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Btn_Actions, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
@@ -137,5 +156,6 @@ Partial Class Fr_Code
     Friend WithEvents Btn_Actions As PictureBox
     Friend WithEvents Btn_Output As PictureBox
     Friend WithEvents Btn_Text As PictureBox
-    Friend WithEvents Button1 As Button
+    Friend WithEvents Button1 As PictureBox
+    Friend WithEvents PictureBox1 As PictureBox
 End Class

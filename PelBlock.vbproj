@@ -104,7 +104,23 @@
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Form2.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Form2.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Form2.ru.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Form2.ru.resx</DependentUpon>
+    </Compile>
     <Compile Include="Form2.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Fr_Start.Designer.vb">
+      <DependentUpon>Fr_Start.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Fr_Start.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -147,8 +163,17 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form2.resx" />
-    <EmbeddedResource Include="Form2.ru.resx" />
+    <EmbeddedResource Include="Form2.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Form2.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form2.ru.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Form2.ru.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Fr_Start.resx">
+      <DependentUpon>Fr_Start.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="My Project\Form2.resx">
       <DependentUpon>Form2.vb</DependentUpon>
     </EmbeddedResource>
@@ -167,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
+    <None Include="My Project\.editorconfig" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
       <LastGenOutput>Application.Designer.vb</LastGenOutput>
@@ -180,6 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="PelMen-projects.ico" />
+    <None Include="Resources\Start.png" />
     <None Include="Resources\Text.png" />
     <None Include="Resources\shop.png" />
     <None Include="Resources\projects.png" />

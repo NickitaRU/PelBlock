@@ -40,7 +40,6 @@
 				End If
 			Next
 		Next
-		MsgBox(ArrToString(AllE) & vbCrLf & ArrToString(AllEA))
 	End Sub
 
 	Sub DistributorManger(pfName As String, eventName As String, args As Object)
