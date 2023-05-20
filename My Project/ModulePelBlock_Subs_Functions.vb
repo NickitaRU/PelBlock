@@ -1,5 +1,52 @@
 ﻿Module ModulePelBlock_Subs_Functions
 
+	Function FindCodeDiscByShortName(shName As String) As String
+		For Each i In CodeDisc
+			If i.Contains(shName) Then
+				Return i
+				Exit Function
+			End If
+		Next
+		Return ""
+	End Function
+
+	Function FindBlockInBLockParentsFromName(name As String) As Control
+		For Each i In BlockParants
+			If i.Name = name Then
+				Return i
+				Exit Function
+			End If
+		Next
+		Return Nothing
+	End Function
+
+	Function FindAllBlockPropertiesByShortName(shName As String) As List(Of String)
+		Dim lst As New List(Of String)
+		For Each i In Block(1)
+			If i.Contains(shName) Then
+				lst.Add(i)
+			End If
+		Next
+		Return lst
+	End Function
+
+	Sub Delete(sender As Object, e As EventArgs)
+		Dim ac As Control = FindBlockInBLockParentsFromName(sender.name)
+		Dim BlockType As String = ReadName(ac.Name)(1)
+		Dim shName As String = ReadName(ac.Name)(1) & "_" & ReadName(ac.Name)(2)
+		Fr_Code.GB_WF.Controls.Remove(ac)
+		Blocks(1)(EventB.IndexOf(BlockType)) -= 1
+		BlockContent.RemoveAt(BlockParants.IndexOf(ac))
+		BlockParants.Remove(ac)
+		BlockContent.RemoveAt(BlockParants.IndexOf(ac.Controls(ac.Controls.Count - 1)))
+		BlockParants.Remove(ac.Controls(ac.Controls.Count - 1))
+		For Each i2 As String In FindAllBlockPropertiesByShortName(shName)
+			Block.Remove(FindBlockPropertes(i2))
+		Next
+		MsgBox(shName)
+		CodeDisc.Remove(FindCodeDiscByShortName(shName.Replace("_", "")))
+	End Sub
+
 	Function FindTextBoxContentIndex(obj As Control) As Integer
 		Dim preres As Integer
 		For i = 0 To TextBoxContent.Count - 1

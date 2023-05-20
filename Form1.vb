@@ -111,6 +111,8 @@
 			blockindex = EventB.IndexOf(blockname)
 		End If
 
+		MsgBox(Blocks(1)(blockindex))
+
 		If Blocks(1)(blockindex) = MaxEvent(blockindex) + 1 Then
 			Exit Sub
 		End If
@@ -128,6 +130,13 @@
 		GBWFB.Add(GB_WF.Controls.Find("GB_" & Blocks(0)(blockindex) & "_" & Blocks(1)(blockindex), False)(0))
 		Conteiner.Add(GBWFB(GBWFB.Count - 1))
 		AC = GBWFB(GBWFB.Count - 1)
+		Dim Cm As New ContextMenu
+		Dim mItem As New MenuItem With {
+								.Text = "Удалить",
+								.Name = AC.Name}
+		AddHandler mItem.Click, AddressOf Delete
+		Cm.MenuItems.Add(mItem)
+		AC.ContextMenu = Cm
 		BlockParants.Add(AC)
 		BlockContent.Add("{}")
 		CodeDisc.Add(Blocks(0)(blockindex) & Blocks(1)(blockindex) & "{}")
