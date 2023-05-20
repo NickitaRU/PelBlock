@@ -58,10 +58,14 @@
                     Lst.Items.Add(ArrToString(FindBlockPropertes(i)))
                 Next
             Case 21
-                For Each i In CodeDisc
-                    Lst.Items.Add(i)
-                Next
-        End Select
+				For Each i In CodeDisc
+					Lst.Items.Add(i)
+				Next
+			Case 22
+				For Each i In TextBoxPr
+					Lst.Items.Add(ArrToString(i))
+				Next
+		End Select
     End Sub
 
     Private Sub Lst_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Lst.SelectedIndexChanged
@@ -70,6 +74,7 @@
 
 	Private Sub Fr_Debug_Shown(sender As Object, e As EventArgs) Handles Me.Shown
 		AddHandler Tmr.Tick, AddressOf ComboBox1_SelectedIndexChanged
+		ComboBox1.Items.Add("TextBox_Pr")
 	End Sub
 
 	Private Sub Fr_Debug_Close(sender As Object, e As EventArgs) Handles Me.Closing
