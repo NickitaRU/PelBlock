@@ -1,6 +1,8 @@
 ﻿Public Class Fr_Debug
-
-    Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged, Button1.Click
+	Dim Tmr As New Timer With {
+								.Interval = 1000,
+								.Enabled = True}
+	Private Sub ComboBox1_SelectedIndexChanged(sender As Object, e As EventArgs) Handles ComboBox1.SelectedIndexChanged, Button1.Click
         Lst.Items.Clear()
         Select Case ComboBox1.SelectedIndex
             Case 0
@@ -67,9 +69,10 @@
     End Sub
 
 	Private Sub Fr_Debug_Shown(sender As Object, e As EventArgs) Handles Me.Shown
-		Dim Tmr As New Timer With {
-								.Interval = 1000,
-								.Enabled = True}
 		AddHandler Tmr.Tick, AddressOf ComboBox1_SelectedIndexChanged
+	End Sub
+
+	Private Sub Fr_Debug_Close(sender As Object, e As EventArgs) Handles Me.Closing
+		Tmr.Stop()
 	End Sub
 End Class

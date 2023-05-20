@@ -111,8 +111,6 @@
 			blockindex = EventB.IndexOf(blockname)
 		End If
 
-		MsgBox(Blocks(1)(blockindex))
-
 		If Blocks(1)(blockindex) = MaxEvent(blockindex) + 1 Then
 			Exit Sub
 		End If

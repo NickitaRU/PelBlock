@@ -43,7 +43,6 @@
 		For Each i2 As String In FindAllBlockPropertiesByShortName(shName)
 			Block.Remove(FindBlockPropertes(i2))
 		Next
-		MsgBox(shName)
 		CodeDisc.Remove(FindCodeDiscByShortName(shName.Replace("_", "")))
 	End Sub
 
@@ -462,15 +461,12 @@
 		Dim isArgb As Boolean
 		Dim ArgbDepth%
 		Dim wordbase$ = ""
-		MsgBox("ReadCodeDisc" & vbCrLf & list)
 		For i = 0 To list.Length - 1
 			Fr_Debug.Lst.Items.Add(list(i))
 			If list(i) = "{" Then
 				preres(0).Add(name)
-				MsgBox("name" & vbCrLf & name & vbCrLf & "GetBlockClassTypeFromName" & vbCrLf & GetBlockClassTypeFromName(name))
 				Select Case GetBlockClassTypeFromName(name)
 					Case "OnStart", "OnStop"
-						MsgBox("💣")
 						preres(1).Add("")
 				End Select
 				depth += 1
@@ -481,7 +477,6 @@
 					preres(0).Add(name)
 					Select Case GetBlockClassTypeFromName(name)
 						Case "OnStart", "OnStop"
-							MsgBox("💣")
 							preres(1).Add("")
 					End Select
 				End If
