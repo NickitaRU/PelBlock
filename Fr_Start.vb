@@ -29,6 +29,16 @@
 			i(0).Backcolor = Color.Black
 			i(0).ForeColor = Color.White
 		Next
+		GBBC = 0
+		GBBCh.Clear()
+		If Blocks.Count = 0 Then
+			Blocks.Add(New List(Of String))
+			Blocks.Add(New List(Of String))
+		End If
+		For i = 0 To Blocks(1).Count - 1
+			Blocks(1)(i) = 0
+		Next
+		PersonalConteiner.Clear()
 	End Sub
 
 	Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click, Label3.Click

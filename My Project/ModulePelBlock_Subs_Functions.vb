@@ -60,7 +60,7 @@
 	Function FindTextBoxContentIndex(objname As String) As Integer
 		Dim preres As Integer
 		For i = 0 To TextBoxContent.Count - 1
-			If TextBoxContent(i)(0).name = objname Then
+			If ReadName(TextBoxContent(i)(0).name)(2) = ReadName(objname)(0) And ReadName(TextBoxContent(i)(0).name)(3) = ReadName(objname)(1) Then
 				preres = i
 				Exit For
 			End If
@@ -695,8 +695,11 @@
 	Function LastInnerPos(cont As GroupBox) As Point
 		Dim preres As Point
 		For Each i As Control In cont.Controls
-			preres = New Point(IIf(preres.Y < i.Top + i.Height, i.Top + i.Height, preres.Y), IIf(preres.X < i.Left + i.Width, i.Left + i.Width, preres.X))
+			If Not i.Name.Contains("Visual") Then
+				preres = New Point(IIf(preres.Y < i.Top + i.Height, i.Top + i.Height, preres.Y), IIf(preres.X < i.Left + i.Width, i.Left + i.Width, preres.X))
+			End If
 		Next
+		Console.WriteLine("Last inner pos" & vbCrLf & preres.ToString & vbCrLf & cont.Name)
 		Return preres
 	End Function
 
@@ -704,7 +707,7 @@
 		Dim preres As New List(Of GroupBox)
 		Dim parent As GroupBox = obj.Parent
 
-		While parent IsNot Fr_Code.GB_WF And parent IsNot Fr_Code.GB_Blocks
+		While parent IsNot Fr_Code.GB_WF And parent IsNot Fr_Code.GB_Blocks And Not IsNothing(parent)
 			preres.Add(parent)
 			parent = parent.Parent
 		End While
@@ -800,7 +803,6 @@
 	End Function
 
 	Sub BlockReSize(cont As Control)
-		Console.WriteLine(ArrToString(BlockContent, vbCrLf))
 		Dim contDecod As List(Of String) = ReadBlockContent(cont)
 		Dim LastCont As Control = cont
 		Dim tb As Label = cont.Controls.Find("Lbl_" & "FromGB_" & ReadName(cont.Name)(1) & "_" & ReadName(cont.Name)(2) & "_TopHorizontal", False)(0)
@@ -819,7 +821,6 @@
 				Next
 				LastCont = FindBlockPropertes(LastContName)(0)
 				LastCont.Size = CountMaxSize(LastCont)
-				Console.WriteLine(CountMaxSize(LastCont).ToString & " " & LastCont.Name)
 			End If
 		Next
 		cont.Size = CountMaxSize(cont)
@@ -853,7 +854,6 @@
 			inr.Size = New Size(cont.Parent.Width - 15, cont.Parent.Height - 30)
 			visblock = Nothing
 			VisGB = Nothing
-			Console.WriteLine("DisVisualized")
 			BlockReSize(cont.Parent)
 		End If
 	End Sub
@@ -965,6 +965,7 @@
 		RemoveHandler block.LocationChanged, AddressOf Fr_Code.Move_OTLocationChanged
 		block.Location = LastInnerPos(cont)
 		cont.Controls.Add(block)
+		Console.WriteLine(block.Location.ToString & " inserted block location" & vbCrLf & block.Size.ToString & " inserted block size" & vbCrLf & block.Parent.Name & "parent name")
 		AddBlockContent(cont, "GB", block)
 		AddCodeDisc(ReadName(block.Name)(1) & ReadName(block.Name)(2), ReadName(cont.Name)(2) & ReadName(cont.Name)(3))
 		RecountBlockProperties(block.Name)

@@ -11,7 +11,7 @@
 	Public Sub Move_MouseUP(sender As Object, e As MouseEventArgs)
 		isMouseDown = False
 		sender.Cursor = Cursors.Default 'восстанавливаем вид курсора
-		If isVisualised Then
+		If isVisualised And sender IsNot GB_WF Then
 			DisVisualize(viscont)
 			InsertBlock(viscont, sender)
 		End If
@@ -174,8 +174,8 @@
 		Next
 		FamilyNamePos.Add(nls.Count - 1)
 		FamilyName.Add("Text")
-		Blocks.Add(nls)
-		Blocks.Add(nls2)
+		Blocks(0) = nls
+		Blocks(1) = nls2
 	End Sub
 
 	Private Sub Fr_Code_Load(sender As Object, e As EventArgs) Handles MyBase.Load

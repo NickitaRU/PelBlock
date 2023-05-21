@@ -106,6 +106,7 @@ Partial Class Fr_Start
         Me.Controls.Add(Me.RB_BlackTheme)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.Label1)
+        Me.MaximizeBox = False
         Me.Name = "Fr_Start"
         Me.Text = "Fr_Start"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
